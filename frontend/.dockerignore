@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+npm-debug.log
+login/node_modules
+login/dist
+vista_admin/node_modules
+vista_admin/dist
+vista_cliente/node_modules
+vista_cliente/dist

@@ -26,7 +26,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { downloadRecentSalesCsv, fetchOverviewReport } from '@/services/catalogService';
+import { downloadReport, fetchOverviewReport } from '@/services/catalogService';
 import type { OverviewReport } from '@/types';
 import { formatCurrencyGTQ } from '@/utils/format';
 
@@ -34,6 +34,7 @@ const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
 
 export function Reports() {
   const [data, setData] = useState<OverviewReport | null>(null);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOverviewReport().then(setData);
@@ -59,14 +60,21 @@ export function Reports() {
   const havingProducts = data?.havingProducts ?? [];
   const sqlSamples = data?.sqlSamples;
 
-  const exportCsv = async () => {
-    const blob = await downloadRecentSalesCsv();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'ventas-recientes.csv';
-    link.click();
-    URL.revokeObjectURL(url);
+  const handleDownloadReport = async (endpoint: string, filename: string) => {
+    try {
+      setDownloadError(null);
+      const blob = await downloadReport(endpoint);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setDownloadError('No se pudo descargar el reporte. Verifica tu sesion de administrador.');
+    }
   };
 
   return (
@@ -76,11 +84,21 @@ export function Reports() {
           <h2 className="text-2xl font-semibold text-gray-900">Reportes</h2>
           <p className="text-gray-600 mt-1">Analisis y reportes del negocio</p>
         </div>
-        <Button variant="outline" size="sm" onClick={exportCsv}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleDownloadReport('/reports/recent-sales/csv', 'ventas-recientes.csv')}
+        >
           <Download className="w-4 h-4 mr-2" />
           Exportar CSV
         </Button>
       </div>
+
+      {downloadError && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {downloadError}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
@@ -143,10 +161,24 @@ export function Reports() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Ventas por Mes</CardTitle>
-            <Button variant="outline" size="sm" onClick={exportCsv}>
+            <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleDownloadReport('/reports/sales-by-date/csv', 'ventas-por-fecha.csv')}
+            >
               <Download className="w-4 h-4 mr-2" />
               CSV
             </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleDownloadReport('/reports/sales-by-date/pdf', 'ventas-por-fecha.pdf')}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              PDF
+            </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -165,10 +197,24 @@ export function Reports() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Ventas por Metodo de Pago</CardTitle>
-            <Button variant="outline" size="sm">
+            <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleDownloadReport('/reports/sales-by-payment/csv', 'ventas-por-metodo-pago.csv')}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleDownloadReport('/reports/sales-by-payment/pdf', 'ventas-por-metodo-pago.pdf')}
+            >
               <Download className="w-4 h-4 mr-2" />
               PDF
             </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -197,10 +243,24 @@ export function Reports() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Ventas Recientes</CardTitle>
-          <Button variant="outline" size="sm" onClick={exportCsv}>
+          <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDownloadReport('/reports/recent-sales/csv', 'ventas-recientes.csv')}
+          >
             <Download className="w-4 h-4 mr-2" />
-            Exportar CSV
+            CSV
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDownloadReport('/reports/recent-sales/pdf', 'ventas-recientes.pdf')}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            PDF
+          </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -235,10 +295,24 @@ export function Reports() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Productos Mas Vendidos</CardTitle>
-          <Button variant="outline" size="sm">
+          <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDownloadReport('/reports/top-products/csv', 'productos-mas-vendidos.csv')}
+          >
             <Download className="w-4 h-4 mr-2" />
-            Exportar
+            CSV
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDownloadReport('/reports/top-products/pdf', 'productos-mas-vendidos.pdf')}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            PDF
+          </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -273,10 +347,24 @@ export function Reports() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Reporte de Stock Bajo</CardTitle>
-          <Button variant="outline" size="sm">
+          <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDownloadReport('/reports/low-stock/csv', 'productos-bajo-stock.csv')}
+          >
             <Download className="w-4 h-4 mr-2" />
-            Exportar
+            CSV
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDownloadReport('/reports/low-stock/pdf', 'productos-bajo-stock.pdf')}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            PDF
+          </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -316,8 +404,26 @@ export function Reports() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Ventas por Fecha</CardTitle>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownloadReport('/reports/sales-by-date/csv', 'ventas-por-fecha.csv')}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                CSV
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownloadReport('/reports/sales-by-date/pdf', 'ventas-por-fecha.pdf')}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                PDF
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -344,8 +450,26 @@ export function Reports() {
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Clientes con Mas Compras</CardTitle>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownloadReport('/reports/top-customers/csv', 'clientes-mas-compras.csv')}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                CSV
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownloadReport('/reports/top-customers/pdf', 'clientes-mas-compras.pdf')}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                PDF
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">

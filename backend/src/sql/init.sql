@@ -209,20 +209,20 @@ VALUES
   (4, 'Llavero Escandalosos', 'Llavero compacto con diseno de los tres osos, perfecto para mochila o llaves.', 34.90, 60, '/images/productos/llavero-escandalosos.jpg', 2, 3, 1),
   (5, 'Taza Escandalosos', 'Taza de ceramica con arte de Escandalosos, capacidad aproximada de 350 ml.', 59.90, 45, '/images/productos/taza-escandalosos.jpg', 3, 3, 1),
   (6, 'Playera Escandalosos', 'Playera casual de algodon con estampado frontal de Escandalosos.', 99.90, 35, '/images/productos/playera-escandalosos.jpg', 4, 3, 1),
-  (7, 'Sudadera Escandalosos', 'Sudadera con capucha y estampado de los osos, comoda para clima fresco.', 219.90, 16, '/images/productos/sudadera-escandalosos.jpg', 5, 3, 1),
-  (8, 'Mochila Escandalosos', 'Mochila con compartimentos amplios y diseno inspirado en Escandalosos.', 199.90, 14, '/images/productos/mochila-escandalosos.jpg', 6, 3, 1),
+  (7, 'Sudadera Escandalosos', 'Sudadera con capucha y estampado de los osos, comoda para clima fresco.', 219.90, 8, '/images/productos/sudadera-escandalosos.jpg', 5, 3, 1),
+  (8, 'Mochila Escandalosos', 'Mochila con compartimentos amplios y diseno inspirado en Escandalosos.', 199.90, 7, '/images/productos/mochila-escandalosos.jpg', 6, 3, 1),
   (9, 'Sticker Pack Escandalosos', 'Paquete de stickers decorativos de Escandalosos para laptop, libreta o botella.', 24.90, 80, '/images/productos/stickers-escandalosos.jpg', 7, 3, 1),
   (10, 'Termo Escandalosos', 'Termo reutilizable con ilustracion de Escandalosos y tapa de seguridad.', 129.90, 28, '/images/productos/termo-escandalosos.jpg', 8, 3, 1),
   (11, 'Peluche Snoopy Clasico', 'Peluche clasico de Snoopy con detalles bordados y textura suave.', 179.90, 22, '/images/productos/peluche-snoopy-clasico.jpg', 1, 2, 2),
   (12, 'Llavero Snoopy', 'Llavero de Snoopy en goma flexible, ligero y resistente.', 34.90, 70, '/images/productos/llavero-snoopy.jpg', 2, 2, 2),
   (13, 'Taza Snoopy', 'Taza de ceramica con ilustracion de Snoopy, ideal para cafe o chocolate.', 59.90, 42, '/images/productos/taza-snoopy.jpg', 3, 2, 2),
   (14, 'Playera Snoopy', 'Playera de algodon con grafico minimalista de Snoopy.', 99.90, 36, '/images/productos/playera-snoopy.jpg', 4, 2, 2),
-  (15, 'Sudadera Snoopy', 'Sudadera comoda con capucha y estampado de Snoopy.', 229.90, 15, '/images/productos/sudadera-snoopy.jpg', 5, 2, 2),
+  (15, 'Sudadera Snoopy', 'Sudadera comoda con capucha y estampado de Snoopy.', 229.90, 6, '/images/productos/sudadera-snoopy.jpg', 5, 2, 2),
   (16, 'Gorra Snoopy', 'Gorra ajustable con bordado frontal de Snoopy.', 89.90, 33, '/images/productos/gorra-snoopy.jpg', 9, 2, 2),
-  (17, 'Mochila Snoopy', 'Mochila practica con diseno de Snoopy y bolsillo frontal.', 199.90, 17, '/images/productos/mochila-snoopy.jpg', 6, 2, 2),
+  (17, 'Mochila Snoopy', 'Mochila practica con diseno de Snoopy y bolsillo frontal.', 199.90, 9, '/images/productos/mochila-snoopy.jpg', 6, 2, 2),
   (18, 'Libreta Snoopy', 'Libreta rayada con portada de Snoopy, ideal para escuela u oficina.', 44.90, 55, '/images/productos/libreta-snoopy.jpg', 10, 2, 2),
   (19, 'Mousepad Snoopy', 'Mousepad suave con base antideslizante y arte de Snoopy.', 49.90, 48, '/images/productos/mousepad-snoopy.jpg', 11, 2, 2),
-  (20, 'Figura Snoopy', 'Figura coleccionable de Snoopy para escritorio o vitrina.', 149.90, 19, '/images/productos/figura-snoopy.jpg', 12, 2, 2)
+  (20, 'Figura Snoopy', 'Figura coleccionable de Snoopy para escritorio o vitrina.', 149.90, 5, '/images/productos/figura-snoopy.jpg', 12, 2, 2)
 ON DUPLICATE KEY UPDATE
   nombre = VALUES(nombre),
   descripcion = VALUES(descripcion),
@@ -235,14 +235,14 @@ ON DUPLICATE KEY UPDATE
 
 INSERT INTO ventas (id_venta, id_cliente, id_usuario, id_metodo_pago, fecha, total)
 VALUES
-  (1, 1, 1, 2, DATE_SUB(NOW(), INTERVAL 2 DAY), 848.00),
-  (2, 2, 1, 1, DATE_SUB(NOW(), INTERVAL 1 DAY), 997.00),
-  (3, 3, 1, 3, DATE_SUB(NOW(), INTERVAL 5 DAY), 1199.00),
-  (4, 1, 1, 2, DATE_SUB(NOW(), INTERVAL 35 DAY), 1049.00),
-  (5, 2, 1, 1, DATE_SUB(NOW(), INTERVAL 65 DAY), 898.00),
-  (6, 3, 1, 3, DATE_SUB(NOW(), INTERVAL 95 DAY), 1498.00),
-  (7, 1, 1, 2, DATE_SUB(NOW(), INTERVAL 125 DAY), 1399.00),
-  (8, 2, 1, 1, DATE_SUB(NOW(), INTERVAL 155 DAY), 646.00)
+  (1, 1, 1, 2, DATE_SUB(NOW(), INTERVAL 2 DAY), 389.70),
+  (2, 2, 1, 1, DATE_SUB(NOW(), INTERVAL 1 DAY), 474.70),
+  (3, 3, 1, 3, DATE_SUB(NOW(), INTERVAL 5 DAY), 249.80),
+  (4, 1, 1, 2, DATE_SUB(NOW(), INTERVAL 35 DAY), 599.70),
+  (5, 2, 1, 1, DATE_SUB(NOW(), INTERVAL 65 DAY), 134.80),
+  (6, 3, 1, 3, DATE_SUB(NOW(), INTERVAL 95 DAY), 119.80),
+  (7, 1, 1, 2, DATE_SUB(NOW(), INTERVAL 125 DAY), 579.70),
+  (8, 2, 1, 1, DATE_SUB(NOW(), INTERVAL 155 DAY), 759.60)
 ON DUPLICATE KEY UPDATE
   id_cliente = VALUES(id_cliente),
   id_usuario = VALUES(id_usuario),
@@ -252,21 +252,21 @@ ON DUPLICATE KEY UPDATE
 
 INSERT INTO detalle_venta (id_detalle, id_venta, id_producto, cantidad, precio_unitario, subtotal)
 VALUES
-  (1, 1, 1, 1, 450.00, 450.00),
-  (2, 1, 6, 2, 199.00, 398.00),
-  (3, 2, 4, 1, 699.00, 699.00),
-  (4, 2, 7, 2, 149.00, 298.00),
-  (5, 3, 2, 1, 450.00, 450.00),
-  (6, 3, 5, 1, 749.00, 749.00),
-  (7, 4, 3, 2, 450.00, 900.00),
-  (8, 4, 7, 1, 149.00, 149.00),
-  (9, 5, 4, 1, 699.00, 699.00),
-  (10, 5, 6, 1, 199.00, 199.00),
-  (11, 6, 5, 2, 749.00, 1498.00),
-  (12, 7, 1, 2, 450.00, 900.00),
-  (13, 7, 8, 1, 499.00, 499.00),
-  (14, 8, 6, 1, 199.00, 199.00),
-  (15, 8, 7, 3, 149.00, 447.00)
+  (1, 1, 1, 1, 189.90, 189.90),
+  (2, 1, 6, 2, 99.90, 199.80),
+  (3, 2, 4, 1, 34.90, 34.90),
+  (4, 2, 7, 2, 219.90, 439.80),
+  (5, 3, 2, 1, 189.90, 189.90),
+  (6, 3, 5, 1, 59.90, 59.90),
+  (7, 4, 3, 2, 189.90, 379.80),
+  (8, 4, 7, 1, 219.90, 219.90),
+  (9, 5, 4, 1, 34.90, 34.90),
+  (10, 5, 6, 1, 99.90, 99.90),
+  (11, 6, 5, 2, 59.90, 119.80),
+  (12, 7, 1, 2, 189.90, 379.80),
+  (13, 7, 8, 1, 199.90, 199.90),
+  (14, 8, 6, 1, 99.90, 99.90),
+  (15, 8, 7, 3, 219.90, 659.70)
 ON DUPLICATE KEY UPDATE
   id_venta = VALUES(id_venta),
   id_producto = VALUES(id_producto),

@@ -11,7 +11,11 @@ ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 COPY package*.json ./
 RUN npm ci --no-audit --no-fund
 
-COPY . .
+COPY index.html ./
+COPY tsconfig.json ./
+COPY vite.config.ts ./
+COPY src ./src
+COPY public ./public
 RUN npm run build
 
 FROM nginx:1.27-alpine

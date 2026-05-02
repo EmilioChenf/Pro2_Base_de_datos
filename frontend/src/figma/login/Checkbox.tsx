@@ -11,7 +11,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         <input
           ref={ref}
           type="checkbox"
-          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          className="w-4 h-4 text-[var(--primary-hover)] border-[rgba(8,252,184,0.34)] rounded focus:ring-2 focus:ring-[var(--color-primary)] cursor-pointer"
           {...props}
         />
         <span className="ml-2 text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
@@ -23,3 +23,4 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = 'Checkbox';
+

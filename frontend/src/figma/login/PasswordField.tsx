@@ -22,7 +22,7 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
           <input
             ref={ref}
             type={showPassword ? 'text' : 'password'}
-            className={`w-full px-4 py-3 pl-11 pr-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
+            className={`w-full px-4 py-3 pl-11 pr-12 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent brand-input transition-all ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
             {...props}
           />
           <button
@@ -42,3 +42,4 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
 );
 
 PasswordField.displayName = 'PasswordField';
+

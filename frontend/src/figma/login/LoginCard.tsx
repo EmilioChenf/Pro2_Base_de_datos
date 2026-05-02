@@ -33,7 +33,7 @@ export function LoginCard() {
       <div className="w-full max-w-md">
         <div className="mb-8">
           <div className="lg:hidden mb-6 flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 brand-primary-gradient rounded-xl flex items-center justify-center">
               <span className="text-white text-xl">🧸</span>
             </div>
             <h1 className="text-2xl text-gray-900">PlushStore</h1>
@@ -91,7 +91,7 @@ export function LoginCard() {
             />
             <a
               href="#"
-              className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+              className="text-sm text-[var(--primary-hover)] hover:text-[#057f63] transition-colors"
             >
               ¿Olvidaste tu contraseña?
             </a>
@@ -107,3 +107,4 @@ export function LoginCard() {
     </div>
   );
 }
+

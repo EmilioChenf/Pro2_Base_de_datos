@@ -21,10 +21,10 @@ export function AlertMessage({ type, message, onClose }: AlertMessageProps) {
       icon: <AlertCircle size={20} className="text-red-600" />,
     },
     info: {
-      bg: 'bg-blue-50',
-      border: 'border-blue-200',
-      text: 'text-blue-800',
-      icon: <Info size={20} className="text-blue-600" />,
+      bg: 'bg-[rgba(165,255,242,0.42)]',
+      border: 'border-[rgba(8,252,184,0.28)]',
+      text: 'text-[#31534c]',
+      icon: <Info size={20} className="text-[var(--primary-hover)]" />,
     },
   };
 
@@ -49,3 +49,4 @@ export function AlertMessage({ type, message, onClose }: AlertMessageProps) {
     </div>
   );
 }
+

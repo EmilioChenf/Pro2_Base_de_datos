@@ -23,7 +23,7 @@ export function Orders() {
     Transferencia: 'Transferencia',
   };
 
-  const status = { label: 'Procesando', color: 'bg-blue-100 text-blue-800' };
+  const status = { label: 'Procesando', color: 'bg-[rgba(165,255,242,0.65)] text-[#31534c]' };
 
   const handleToggleOrder = async (orderId: number) => {
     if (selectedOrderId === orderId) {
@@ -39,7 +39,7 @@ export function Orders() {
 
   if (orders.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen brand-page-bg flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
           <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
             <Package className="w-16 h-16 text-gray-400" />
@@ -50,7 +50,7 @@ export function Orders() {
           </p>
           <Link
             to="/catalogo"
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-4 rounded-full font-bold hover:from-pink-600 hover:to-purple-600 transition shadow-lg"
+            className="inline-flex items-center space-x-2 brand-primary-gradient text-[#10231f] px-8 py-4 rounded-full font-bold  transition shadow-lg"
           >
             <ShoppingBag className="w-5 h-5" />
             <span>Explorar Productos</span>
@@ -61,7 +61,7 @@ export function Orders() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen brand-page-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Mis Pedidos</h1>
@@ -73,15 +73,15 @@ export function Orders() {
         <div className="space-y-6">
           {orders.map((order) => (
             <div key={order.id_venta} className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white p-6">
+              <div className="brand-primary-gradient text-[#10231f] p-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div>
-                    <p className="text-pink-100 text-sm mb-1">Pedido</p>
+                    <p className="text-[#31534c] text-sm mb-1">Pedido</p>
                     <p className="text-2xl font-bold">#{order.id_venta}</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-pink-100 text-sm mb-1">Total</p>
+                      <p className="text-[#31534c] text-sm mb-1">Total</p>
                       <p className="text-2xl font-bold">{formatCurrencyGTQ(order.total)}</p>
                     </div>
                     <span className={`px-4 py-2 rounded-full font-semibold ${status.color}`}>
@@ -94,7 +94,7 @@ export function Orders() {
               <div className="p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                   <div className="flex items-center space-x-3">
-                    <Calendar className="w-5 h-5 text-purple-600" />
+                    <Calendar className="w-5 h-5 text-[var(--primary-hover)]" />
                     <div>
                       <p className="text-sm text-gray-600">Fecha</p>
                       <p className="font-semibold text-gray-900">
@@ -108,7 +108,7 @@ export function Orders() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <CreditCard className="w-5 h-5 text-purple-600" />
+                    <CreditCard className="w-5 h-5 text-[var(--primary-hover)]" />
                     <div>
                       <p className="text-sm text-gray-600">Metodo de Pago</p>
                       <p className="font-semibold text-gray-900">
@@ -118,7 +118,7 @@ export function Orders() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Package className="w-5 h-5 text-purple-600" />
+                    <Package className="w-5 h-5 text-[var(--primary-hover)]" />
                     <div>
                       <p className="text-sm text-gray-600">Productos</p>
                       <p className="font-semibold text-gray-900">{order.items} articulos</p>
@@ -136,7 +136,7 @@ export function Orders() {
                         return (
                           <div
                             key={item.id_detalle}
-                            className="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl"
+                            className="flex items-center space-x-4 p-3 brand-page-bg rounded-xl"
                           >
                             <div className="w-16 h-16 bg-white rounded-lg overflow-hidden flex-shrink-0">
                               {product ? (
@@ -161,7 +161,7 @@ export function Orders() {
                       })}
                     </div>
 
-                    <div className="bg-purple-50 rounded-xl p-4 mb-4">
+                    <div className="bg-[rgba(165,255,242,0.42)] rounded-xl p-4 mb-4">
                       <h4 className="font-semibold text-gray-900 mb-3">Informacion de Contacto</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                         <div>
@@ -184,7 +184,7 @@ export function Orders() {
                         setSelectedOrderId(null);
                         setSelectedOrder(null);
                       }}
-                      className="w-full py-3 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition"
+                      className="w-full py-3 bg-[rgba(173,235,179,0.55)] text-[#31534c] rounded-full font-semibold hover:bg-[rgba(173,235,179,0.8)] transition"
                     >
                       Ocultar Detalles
                     </button>
@@ -192,7 +192,7 @@ export function Orders() {
                 ) : (
                   <button
                     onClick={() => handleToggleOrder(order.id_venta)}
-                    className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full font-semibold hover:from-pink-600 hover:to-purple-600 transition flex items-center justify-center space-x-2"
+                    className="w-full py-3 brand-primary-gradient text-[#10231f] rounded-full font-semibold  transition flex items-center justify-center space-x-2"
                   >
                     <Eye className="w-5 h-5" />
                     <span>Ver Detalles</span>
@@ -206,3 +206,5 @@ export function Orders() {
     </div>
   );
 }
+
+

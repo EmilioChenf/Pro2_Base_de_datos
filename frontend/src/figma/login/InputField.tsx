@@ -21,7 +21,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           )}
           <input
             ref={ref}
-            className={`w-full px-4 py-3 ${icon ? 'pl-11' : ''} border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
+            className={`w-full px-4 py-3 ${icon ? 'pl-11' : ''} border rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent brand-input transition-all ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
             {...props}
           />
         </div>
@@ -34,3 +34,4 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 );
 
 InputField.displayName = 'InputField';
+

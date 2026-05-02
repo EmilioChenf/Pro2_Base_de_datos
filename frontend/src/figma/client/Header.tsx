@@ -25,17 +25,17 @@ export function Header() {
   const totalItems = getTotalItems();
   const currentPath = `${location.pathname}${location.search}`;
   const navClass = (target: string) =>
-    `text-gray-700 hover:text-pink-500 transition ${
-      currentPath === target ? 'text-pink-500 font-semibold' : ''
+    `text-[#31534c] hover:text-[var(--primary-hover)] transition ${
+      currentPath === target ? 'text-[var(--primary-hover)] font-semibold' : ''
     }`;
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white shadow-sm sticky top-0 z-50 border-b brand-soft-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/cliente" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">P</span>
+            <div className="w-10 h-10 brand-primary-gradient rounded-full flex items-center justify-center">
+              <span className="text-[#10231f] font-bold text-lg">P</span>
             </div>
             <span className="text-xl font-bold text-gray-900 hidden sm:block">
               Plushie Paradise
@@ -79,23 +79,23 @@ export function Header() {
                 placeholder="Buscar productos..."
                 value={searchQuery}
                 onChange={(event) => handleSearchChange(event.target.value)}
-                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
+                className="w-full px-4 py-2 pl-10 border rounded-full focus:outline-none focus:border-transparent brand-input placeholder:text-[#58736d]"
               />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--primary-hover)]" />
             </div>
           </form>
 
           <div className="flex items-center space-x-4">
             <Link
               to="/ordenes"
-              className="text-gray-700 hover:text-pink-500 transition hidden sm:block"
+              className="text-[#31534c] hover:text-[var(--primary-hover)] transition hidden sm:block"
             >
               <User className="w-6 h-6" />
             </Link>
-            <Link to="/carrito" className="relative text-gray-700 hover:text-pink-500 transition">
+            <Link to="/carrito" className="relative text-[#31534c] hover:text-[var(--primary-hover)] transition">
               <ShoppingCart className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 brand-badge-primary text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -103,14 +103,14 @@ export function Header() {
             <button
               type="button"
               onClick={logout}
-              className="hidden lg:block text-sm text-gray-700 hover:text-pink-500 transition"
+              className="hidden lg:block text-sm text-[#31534c] hover:text-[var(--primary-hover)] transition"
             >
               Cerrar sesion
             </button>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-gray-700"
+              className="md:hidden text-[#31534c]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -118,53 +118,53 @@ export function Header() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
+          <div className="md:hidden py-4 border-t brand-soft-border">
             <nav className="flex flex-col space-y-3">
               <Link
                 to="/cliente"
-                className="text-gray-700 hover:text-pink-500 transition"
+                className="text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Inicio
               </Link>
               <Link
                 to="/catalogo"
-                className="text-gray-700 hover:text-pink-500 transition"
+                className="text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Catalogo
               </Link>
               <Link
                 to="/catalogo?category=Peluches"
-                className="text-gray-700 hover:text-pink-500 transition"
+                className="text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Peluches
               </Link>
               <Link
                 to="/catalogo?brand=Escandalosos"
-                className="text-gray-700 hover:text-pink-500 transition"
+                className="text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Escandalosos
               </Link>
               <Link
                 to="/catalogo?brand=Snoopy"
-                className="text-gray-700 hover:text-pink-500 transition"
+                className="text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Snoopy
               </Link>
               <Link
                 to="/ordenes"
-                className="text-gray-700 hover:text-pink-500 transition"
+                className="text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Mis Pedidos
               </Link>
               <button
                 type="button"
-                className="text-left text-gray-700 hover:text-pink-500 transition"
+                className="text-left text-[#31534c] hover:text-[var(--primary-hover)] transition"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   logout();
@@ -180,9 +180,9 @@ export function Header() {
                 placeholder="Buscar productos..."
                 value={searchQuery}
                   onChange={(event) => handleSearchChange(event.target.value)}
-                  className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  className="w-full px-4 py-2 pl-10 border rounded-full focus:outline-none brand-input placeholder:text-[#58736d]"
                 />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--primary-hover)]" />
               </div>
             </form>
           </div>

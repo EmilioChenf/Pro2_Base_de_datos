@@ -127,7 +127,7 @@ export function AuthPage() {
         <div className="w-full max-w-md">
           <div className="mb-8">
             <div className="lg:hidden mb-6 flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 brand-primary-gradient rounded-xl flex items-center justify-center">
                 <span className="text-white text-xl">P</span>
               </div>
               <h1 className="text-2xl text-gray-900">PlushStore</h1>
@@ -146,7 +146,7 @@ export function AuthPage() {
               onClick={() => setMode('login')}
               className={`flex-1 py-2 rounded-xl border transition ${
                 mode === 'login'
-                  ? 'bg-blue-600 text-white border-blue-600'
+                  ? 'brand-primary-gradient text-[#10231f] border-[var(--color-primary)]'
                   : 'bg-white text-gray-600 border-gray-200'
               }`}
             >
@@ -157,7 +157,7 @@ export function AuthPage() {
               onClick={() => setMode('register')}
               className={`flex-1 py-2 rounded-xl border transition ${
                 mode === 'register'
-                  ? 'bg-blue-600 text-white border-blue-600'
+                  ? 'brand-primary-gradient text-[#10231f] border-[var(--color-primary)]'
                   : 'bg-white text-gray-600 border-gray-200'
               }`}
             >
@@ -244,7 +244,7 @@ export function AuthPage() {
               />
               <button
                 type="button"
-                className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+                className="text-sm text-[var(--primary-hover)] hover:text-[#057f63] transition-colors"
                 onClick={() =>
                   setMode((current) => (current === 'login' ? 'register' : 'login'))
                 }
@@ -277,3 +277,4 @@ export function AuthPage() {
     </div>
   );
 }
+

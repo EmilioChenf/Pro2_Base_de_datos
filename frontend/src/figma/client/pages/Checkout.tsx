@@ -116,7 +116,7 @@ export function Checkout() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen brand-page-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Finalizar Compra</h1>
 
@@ -138,13 +138,13 @@ export function Checkout() {
                       onChange={(event) =>
                         setFormData({ ...formData, fullName: event.target.value })
                       }
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${
-                        errors.fullName ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+                        errors.fullName ? 'border-[var(--primary-hover)]' : 'border-gray-300'
                       }`}
                       placeholder="Juan Perez Garcia"
                     />
                     {errors.fullName && (
-                      <p className="text-red-500 text-sm mt-1 flex items-center space-x-1">
+                      <p className="text-[#057f63] text-sm mt-1 flex items-center space-x-1">
                         <AlertCircle className="w-4 h-4" />
                         <span>{errors.fullName}</span>
                       </p>
@@ -162,13 +162,13 @@ export function Checkout() {
                       onChange={(event) =>
                         setFormData({ ...formData, email: event.target.value })
                       }
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${
-                        errors.email ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+                        errors.email ? 'border-[var(--primary-hover)]' : 'border-gray-300'
                       }`}
                       placeholder="correo@ejemplo.com"
                     />
                     {errors.email && (
-                      <p className="text-red-500 text-sm mt-1 flex items-center space-x-1">
+                      <p className="text-[#057f63] text-sm mt-1 flex items-center space-x-1">
                         <AlertCircle className="w-4 h-4" />
                         <span>{errors.email}</span>
                       </p>
@@ -186,13 +186,13 @@ export function Checkout() {
                       onChange={(event) =>
                         setFormData({ ...formData, phone: event.target.value })
                       }
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${
-                        errors.phone ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${
+                        errors.phone ? 'border-[var(--primary-hover)]' : 'border-gray-300'
                       }`}
                       placeholder="5512345678"
                     />
                     {errors.phone && (
-                      <p className="text-red-500 text-sm mt-1 flex items-center space-x-1">
+                      <p className="text-[#057f63] text-sm mt-1 flex items-center space-x-1">
                         <AlertCircle className="w-4 h-4" />
                         <span>{errors.phone}</span>
                       </p>
@@ -208,8 +208,8 @@ export function Checkout() {
                   <label
                     className={`flex items-center space-x-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                       paymentMethod === 'Tarjeta'
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-purple-300'
+                        ? 'border-[var(--color-primary)] bg-[rgba(165,255,242,0.42)]'
+                        : 'border-gray-200 hover:border-[var(--color-secondary)]'
                     }`}
                   >
                     <input
@@ -220,9 +220,9 @@ export function Checkout() {
                       onChange={(event) =>
                         setPaymentMethod(event.target.value as PaymentMethodName)
                       }
-                      className="w-5 h-5 text-purple-600"
+                      className="w-5 h-5 text-[var(--primary-hover)]"
                     />
-                    <CreditCard className="w-6 h-6 text-purple-600" />
+                    <CreditCard className="w-6 h-6 text-[var(--primary-hover)]" />
                     <div className="flex-1">
                       <div className="font-bold text-gray-900">Tarjeta de Credito/Debito</div>
                       <div className="text-sm text-gray-600">Pago seguro con tarjeta</div>
@@ -232,8 +232,8 @@ export function Checkout() {
                   <label
                     className={`flex items-center space-x-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                       paymentMethod === 'Efectivo'
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-purple-300'
+                        ? 'border-[var(--color-primary)] bg-[rgba(165,255,242,0.42)]'
+                        : 'border-gray-200 hover:border-[var(--color-secondary)]'
                     }`}
                   >
                     <input
@@ -244,9 +244,9 @@ export function Checkout() {
                       onChange={(event) =>
                         setPaymentMethod(event.target.value as PaymentMethodName)
                       }
-                      className="w-5 h-5 text-purple-600"
+                      className="w-5 h-5 text-[var(--primary-hover)]"
                     />
-                    <Banknote className="w-6 h-6 text-green-600" />
+                    <Banknote className="w-6 h-6 text-[var(--primary-hover)]" />
                     <div className="flex-1">
                       <div className="font-bold text-gray-900">Efectivo</div>
                       <div className="text-sm text-gray-600">Pago contra entrega</div>
@@ -256,8 +256,8 @@ export function Checkout() {
                   <label
                     className={`flex items-center space-x-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                       paymentMethod === 'Transferencia'
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-purple-300'
+                        ? 'border-[var(--color-primary)] bg-[rgba(165,255,242,0.42)]'
+                        : 'border-gray-200 hover:border-[var(--color-secondary)]'
                     }`}
                   >
                     <input
@@ -268,9 +268,9 @@ export function Checkout() {
                       onChange={(event) =>
                         setPaymentMethod(event.target.value as PaymentMethodName)
                       }
-                      className="w-5 h-5 text-purple-600"
+                      className="w-5 h-5 text-[var(--primary-hover)]"
                     />
-                    <Building2 className="w-6 h-6 text-blue-600" />
+                    <Building2 className="w-6 h-6 text-[var(--primary-hover)]" />
                     <div className="flex-1">
                       <div className="font-bold text-gray-900">Transferencia Bancaria</div>
                       <div className="text-sm text-gray-600">Transferencia SPEI</div>
@@ -279,7 +279,7 @@ export function Checkout() {
                 </div>
 
                 {errors.paymentMethod && (
-                  <p className="text-red-500 text-sm mt-3 flex items-center space-x-1">
+                  <p className="text-[#057f63] text-sm mt-3 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors.paymentMethod}</span>
                   </p>
@@ -324,7 +324,7 @@ export function Checkout() {
                   </div>
                   <div className="flex justify-between text-gray-700">
                     <span>Envio</span>
-                    <span className="font-semibold text-green-600">Gratis</span>
+                    <span className="font-semibold text-[var(--primary-hover)]">Gratis</span>
                   </div>
                   <div className="border-t border-gray-200 pt-3">
                     <div className="flex justify-between items-center">
@@ -338,7 +338,7 @@ export function Checkout() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-full font-bold text-lg hover:from-pink-600 hover:to-purple-600 transition shadow-lg hover:shadow-xl mt-6 disabled:opacity-70"
+                  className="w-full brand-primary-gradient text-[#10231f] py-4 rounded-full font-bold text-lg  transition shadow-lg hover:shadow-xl mt-6 disabled:opacity-70"
                 >
                   {isSubmitting ? 'Procesando...' : 'Confirmar Pedido'}
                 </button>
@@ -354,3 +354,5 @@ export function Checkout() {
     </div>
   );
 }
+
+

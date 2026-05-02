@@ -1,9 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ShoppingCart, Eye, SlidersHorizontal } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
 import { useStore } from '@/context/StoreContext';
+import { formatCurrencyGTQ } from '@/utils/format';
+import { useImageFallback } from '@/utils/images';
 
 export function Catalog() {
   const [searchParams] = useSearchParams();
@@ -23,6 +25,11 @@ export function Catalog() {
 
   const searchQuery = searchParams.get('search') || '';
 
+  useEffect(() => {
+    setSelectedCategories(searchParams.get('category') ? [searchParams.get('category')!] : []);
+    setSelectedBrands(searchParams.get('brand') ? [searchParams.get('brand')!] : []);
+  }, [searchParams]);
+
   const filteredProducts = useMemo(() => {
     const filtered = [...products]
       .filter((product) => {
@@ -33,6 +40,7 @@ export function Catalog() {
         return (
           product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.brand.toLowerCase().includes(searchQuery.toLowerCase())
         );
       })
@@ -198,8 +206,8 @@ export function Catalog() {
                     className="w-full"
                   />
                   <div className="flex justify-between text-sm text-gray-600">
-                    <span>${priceRange[0]}</span>
-                    <span>${priceRange[1]}</span>
+                    <span>{formatCurrencyGTQ(priceRange[0])}</span>
+                    <span>{formatCurrencyGTQ(priceRange[1])}</span>
                   </div>
                 </div>
               </div>
@@ -234,7 +242,7 @@ export function Catalog() {
             {filteredProducts.length === 0 ? (
               <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
                 <p className="text-gray-500 text-lg">
-                  No se encontraron productos con los filtros seleccionados.
+                  No se encontraron productos relacionados.
                 </p>
               </div>
             ) : (
@@ -249,6 +257,7 @@ export function Catalog() {
                         <img
                           src={product.image}
                           alt={product.name}
+                          onError={useImageFallback}
                           className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                         />
                         {product.isNew && (
@@ -288,7 +297,7 @@ export function Catalog() {
                         {product.description}
                       </p>
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-2xl font-bold text-gray-900">${product.price}</span>
+                        <span className="text-2xl font-bold text-gray-900">{formatCurrencyGTQ(product.price)}</span>
                         <span className="text-sm text-gray-500">{product.stock} en stock</span>
                       </div>
                       <button

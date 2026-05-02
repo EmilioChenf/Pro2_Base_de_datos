@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
+import { formatCurrencyGTQ } from '@/utils/format';
+import { useImageFallback } from '@/utils/images';
 
 export function Cart() {
   const { items, removeFromCart, updateQuantity, getTotalPrice } = useCart();
@@ -50,6 +52,7 @@ export function Cart() {
                         <img
                           src={item.product.image}
                           alt={item.product.name}
+                          onError={useImageFallback}
                           className="w-full h-full object-cover hover:scale-110 transition duration-300"
                         />
                       </Link>
@@ -105,10 +108,10 @@ export function Cart() {
 
                           <div className="text-right">
                             <div className="text-sm text-gray-600">
-                              ${item.product.price} × {item.quantity}
+                              {formatCurrencyGTQ(item.product.price)} x {item.quantity}
                             </div>
                             <div className="text-2xl font-bold text-gray-900">
-                              ${item.product.price * item.quantity}
+                              {formatCurrencyGTQ(item.product.price * item.quantity)}
                             </div>
                           </div>
                         </div>
@@ -141,7 +144,7 @@ export function Cart() {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-700">
                   <span>Subtotal</span>
-                  <span className="font-semibold">${totalPrice}</span>
+                  <span className="font-semibold">{formatCurrencyGTQ(totalPrice)}</span>
                 </div>
                 <div className="flex justify-between text-gray-700">
                   <span>Envio</span>
@@ -150,9 +153,9 @@ export function Cart() {
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-xl font-bold text-gray-900">Total</span>
-                    <span className="text-3xl font-bold text-gray-900">${totalPrice}</span>
+                    <span className="text-3xl font-bold text-gray-900">{formatCurrencyGTQ(totalPrice)}</span>
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">MXN (IVA incluido)</p>
+                  <p className="text-sm text-gray-500 mt-1">GTQ (IVA incluido)</p>
                 </div>
               </div>
 

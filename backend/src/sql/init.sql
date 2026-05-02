@@ -1,8 +1,13 @@
-CREATE DATABASE IF NOT EXISTS plushstore_db
+CREATE DATABASE IF NOT EXISTS tienda_peluches
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE plushstore_db;
+CREATE USER IF NOT EXISTS 'proy2'@'%' IDENTIFIED BY 'secret';
+ALTER USER 'proy2'@'%' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON tienda_peluches.* TO 'proy2'@'%';
+FLUSH PRIVILEGES;
+
+USE tienda_peluches;
 
 SET NAMES utf8mb4;
 
@@ -141,23 +146,30 @@ ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 INSERT INTO categorias (id_categoria, nombre)
 VALUES
   (1, 'Peluches'),
-  (2, 'Accesorios'),
-  (3, 'Ropa'),
-  (4, 'Sets')
+  (2, 'Llaveros'),
+  (3, 'Tazas'),
+  (4, 'Playeras'),
+  (5, 'Sudaderas'),
+  (6, 'Mochilas'),
+  (7, 'Stickers'),
+  (8, 'Termos'),
+  (9, 'Gorras'),
+  (10, 'Libretas'),
+  (11, 'Mousepads'),
+  (12, 'Figuras')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
 INSERT INTO marcas (id_marca, nombre)
 VALUES
   (1, 'Escandalosos'),
-  (2, 'Snoopy'),
-  (3, 'PlushStore')
+  (2, 'Snoopy')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
 INSERT INTO proveedores (id_proveedor, nombre, correo, telefono)
 VALUES
-  (1, 'Distribuidora ABC', 'ventas@abcdist.com', '555-0101'),
-  (2, 'Peanuts Imports', 'contacto@peanuts.com', '555-0202'),
-  (3, 'Merchandising Plus', 'info@merchplus.com', '555-0303')
+  (1, 'Distribuidora Escandalosos GT', 'ventas@escandalososgt.com', '555-0101'),
+  (2, 'Peanuts Imports Guatemala', 'contacto@peanutsgt.com', '555-0202'),
+  (3, 'Merchandising Plus Guatemala', 'info@merchplusgt.com', '555-0303')
 ON DUPLICATE KEY UPDATE
   nombre = VALUES(nombre),
   correo = VALUES(correo),
@@ -165,10 +177,10 @@ ON DUPLICATE KEY UPDATE
 
 INSERT INTO usuarios (id_usuario, nombre, correo, password, id_rol, google_id)
 VALUES
-  (1, 'Administrador Principal', 'admin@plushstore.com', '$2b$10$H4PTG0Rh1O0c2DX3Lu5nTuDeL0I7y.Lm319nakozw/D/W6UIoPvI2', 1, NULL),
-  (2, 'Maria Gonzalez', 'maria@cliente.com', '$2b$10$zikQ6fj8DNSmQmvYbItr/uSD9qYNX0hJX3p1iHyT0olxRaQWJn2GK', 2, NULL),
-  (3, 'Carlos Ruiz', 'carlos@cliente.com', '$2b$10$zikQ6fj8DNSmQmvYbItr/uSD9qYNX0hJX3p1iHyT0olxRaQWJn2GK', 2, NULL),
-  (4, 'Ana Lopez', 'ana@cliente.com', '$2b$10$zikQ6fj8DNSmQmvYbItr/uSD9qYNX0hJX3p1iHyT0olxRaQWJn2GK', 2, NULL)
+  (1, 'Administrador Principal', 'admin@tienda.com', '$2b$10$0Q9aYFnQ8n1HqpNwHewtyeTlBsmGSc2QpORIyoJN/R4dT6o6zUb.i', 1, NULL),
+  (2, 'Cliente Demo', 'cliente@tienda.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 2, NULL),
+  (3, 'Carlos Ruiz', 'carlos@cliente.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 2, NULL),
+  (4, 'Ana Lopez', 'ana@cliente.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 2, NULL)
 ON DUPLICATE KEY UPDATE
   nombre = VALUES(nombre),
   correo = VALUES(correo),
@@ -178,7 +190,7 @@ ON DUPLICATE KEY UPDATE
 
 INSERT INTO clientes (id_cliente, nombre, correo, telefono, id_usuario)
 VALUES
-  (1, 'Maria Gonzalez', 'maria@cliente.com', '555-1001', 2),
+  (1, 'Cliente Demo', 'cliente@tienda.com', '555-1001', 2),
   (2, 'Carlos Ruiz', 'carlos@cliente.com', '555-1002', 3),
   (3, 'Ana Lopez', 'ana@cliente.com', '555-1003', 4)
 ON DUPLICATE KEY UPDATE
@@ -191,14 +203,26 @@ INSERT INTO productos (
   id_producto, nombre, descripcion, precio, stock, imagen, id_categoria, id_proveedor, id_marca
 )
 VALUES
-  (1, 'Peluche Panda', 'Peluche oficial de Panda de Escandalosos, suave y coleccionable.', 450.00, 18, 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=500&h=500&fit=crop', 1, 1, 1),
-  (2, 'Peluche Polar', 'Peluche oficial de Polar, ideal para regalo.', 450.00, 9, 'https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?w=500&h=500&fit=crop', 1, 1, 1),
-  (3, 'Peluche Pardo', 'Peluche oficial de Pardo en tamano grande.', 450.00, 14, 'https://images.unsplash.com/photo-1551051088-b0eb4c491fdb?w=500&h=500&fit=crop', 1, 1, 1),
-  (4, 'Snoopy Clasico', 'Peluche clasico de Snoopy con licencia oficial.', 699.00, 20, 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=500&h=500&fit=crop', 1, 2, 2),
-  (5, 'Snoopy Aviador', 'Edicion especial de Snoopy con traje de aviador.', 749.00, 8, 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop', 1, 2, 2),
-  (6, 'Taza Escandalosos', 'Taza ceramica con ilustracion de los tres osos.', 199.00, 30, 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&h=500&fit=crop', 2, 3, 1),
-  (7, 'Llavero Snoopy', 'Llavero de goma resistente con diseno de Snoopy.', 149.00, 50, 'https://images.unsplash.com/photo-1591561954557-26941169b49e?w=500&h=500&fit=crop', 2, 3, 2),
-  (8, 'Sudadera Snoopy Flying Ace', 'Sudadera con capucha inspirada en Flying Ace.', 499.00, 16, 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&h=500&fit=crop', 3, 2, 2)
+  (1, 'Peluche Panda Escandalosos', 'Peluche suave de Panda de Escandalosos, ideal para coleccionistas y regalos.', 189.90, 24, '/images/productos/peluche-panda-escandalosos.jpg', 1, 1, 1),
+  (2, 'Peluche Polar Escandalosos', 'Peluche de Polar con acabado premium y textura extra suave.', 189.90, 18, '/images/productos/peluche-polar-escandalosos.jpg', 1, 1, 1),
+  (3, 'Peluche Pardo Escandalosos', 'Peluche de Pardo de Escandalosos, abrazable y resistente para uso diario.', 189.90, 20, '/images/productos/peluche-pardo-escandalosos.jpg', 1, 1, 1),
+  (4, 'Llavero Escandalosos', 'Llavero compacto con diseno de los tres osos, perfecto para mochila o llaves.', 34.90, 60, '/images/productos/llavero-escandalosos.jpg', 2, 3, 1),
+  (5, 'Taza Escandalosos', 'Taza de ceramica con arte de Escandalosos, capacidad aproximada de 350 ml.', 59.90, 45, '/images/productos/taza-escandalosos.jpg', 3, 3, 1),
+  (6, 'Playera Escandalosos', 'Playera casual de algodon con estampado frontal de Escandalosos.', 99.90, 35, '/images/productos/playera-escandalosos.jpg', 4, 3, 1),
+  (7, 'Sudadera Escandalosos', 'Sudadera con capucha y estampado de los osos, comoda para clima fresco.', 219.90, 16, '/images/productos/sudadera-escandalosos.jpg', 5, 3, 1),
+  (8, 'Mochila Escandalosos', 'Mochila con compartimentos amplios y diseno inspirado en Escandalosos.', 199.90, 14, '/images/productos/mochila-escandalosos.jpg', 6, 3, 1),
+  (9, 'Sticker Pack Escandalosos', 'Paquete de stickers decorativos de Escandalosos para laptop, libreta o botella.', 24.90, 80, '/images/productos/stickers-escandalosos.jpg', 7, 3, 1),
+  (10, 'Termo Escandalosos', 'Termo reutilizable con ilustracion de Escandalosos y tapa de seguridad.', 129.90, 28, '/images/productos/termo-escandalosos.jpg', 8, 3, 1),
+  (11, 'Peluche Snoopy Clasico', 'Peluche clasico de Snoopy con detalles bordados y textura suave.', 179.90, 22, '/images/productos/peluche-snoopy-clasico.jpg', 1, 2, 2),
+  (12, 'Llavero Snoopy', 'Llavero de Snoopy en goma flexible, ligero y resistente.', 34.90, 70, '/images/productos/llavero-snoopy.jpg', 2, 2, 2),
+  (13, 'Taza Snoopy', 'Taza de ceramica con ilustracion de Snoopy, ideal para cafe o chocolate.', 59.90, 42, '/images/productos/taza-snoopy.jpg', 3, 2, 2),
+  (14, 'Playera Snoopy', 'Playera de algodon con grafico minimalista de Snoopy.', 99.90, 36, '/images/productos/playera-snoopy.jpg', 4, 2, 2),
+  (15, 'Sudadera Snoopy', 'Sudadera comoda con capucha y estampado de Snoopy.', 229.90, 15, '/images/productos/sudadera-snoopy.jpg', 5, 2, 2),
+  (16, 'Gorra Snoopy', 'Gorra ajustable con bordado frontal de Snoopy.', 89.90, 33, '/images/productos/gorra-snoopy.jpg', 9, 2, 2),
+  (17, 'Mochila Snoopy', 'Mochila practica con diseno de Snoopy y bolsillo frontal.', 199.90, 17, '/images/productos/mochila-snoopy.jpg', 6, 2, 2),
+  (18, 'Libreta Snoopy', 'Libreta rayada con portada de Snoopy, ideal para escuela u oficina.', 44.90, 55, '/images/productos/libreta-snoopy.jpg', 10, 2, 2),
+  (19, 'Mousepad Snoopy', 'Mousepad suave con base antideslizante y arte de Snoopy.', 49.90, 48, '/images/productos/mousepad-snoopy.jpg', 11, 2, 2),
+  (20, 'Figura Snoopy', 'Figura coleccionable de Snoopy para escritorio o vitrina.', 149.90, 19, '/images/productos/figura-snoopy.jpg', 12, 2, 2)
 ON DUPLICATE KEY UPDATE
   nombre = VALUES(nombre),
   descripcion = VALUES(descripcion),
@@ -249,3 +273,18 @@ ON DUPLICATE KEY UPDATE
   cantidad = VALUES(cantidad),
   precio_unitario = VALUES(precio_unitario),
   subtotal = VALUES(subtotal);
+
+DROP VIEW IF EXISTS vista_resumen_ventas;
+
+CREATE VIEW vista_resumen_ventas AS
+SELECT
+  v.id_venta,
+  v.fecha,
+  c.nombre AS cliente,
+  u.nombre AS usuario,
+  mp.nombre AS metodo_pago,
+  v.total
+FROM ventas v
+INNER JOIN clientes c ON c.id_cliente = v.id_cliente
+INNER JOIN usuarios u ON u.id_usuario = v.id_usuario
+INNER JOIN metodos_pago mp ON mp.id_metodo_pago = v.id_metodo_pago;

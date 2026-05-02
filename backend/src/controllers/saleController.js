@@ -131,7 +131,7 @@ export async function createSale(req, res, next) {
       throw createHttpError(422, 'Debes agregar al menos un producto a la venta.');
     }
 
-    await connection.beginTransaction();
+    await connection.query('BEGIN');
 
     const paymentMethodId = await resolvePaymentMethodId(connection, id_metodo_pago);
 
@@ -227,11 +227,11 @@ export async function createSale(req, res, next) {
       );
     }
 
-    await connection.commit();
+    await connection.query('COMMIT');
     req.params.id = String(saleResult.insertId);
     return getSaleById(req, res, next);
   } catch (error) {
-    await connection.rollback();
+    await connection.query('ROLLBACK');
     next(error);
   } finally {
     connection.release();

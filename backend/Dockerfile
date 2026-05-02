@@ -9,6 +9,6 @@ RUN npm ci --omit=dev --no-audit --no-fund
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 3000
 
 CMD ["npm", "run", "start"]

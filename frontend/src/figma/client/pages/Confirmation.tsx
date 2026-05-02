@@ -2,6 +2,8 @@ import { useEffect, useMemo } from 'react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { CheckCircle, Package, CreditCard, Calendar, ArrowLeft } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { formatCurrencyGTQ } from '@/utils/format';
+import { useImageFallback } from '@/utils/images';
 
 export function Confirmation() {
   const location = useLocation();
@@ -67,7 +69,7 @@ export function Confirmation() {
               </div>
               <div className="text-right">
                 <p className="text-pink-100 text-sm mb-1">Total Pagado</p>
-                <p className="text-3xl font-bold">${order.total} MXN</p>
+                <p className="text-3xl font-bold">{formatCurrencyGTQ(order.total)}</p>
               </div>
             </div>
           </div>
@@ -154,6 +156,7 @@ export function Confirmation() {
                         <img
                           src={product.image}
                           alt={product.name}
+                          onError={useImageFallback}
                           className="w-full h-full object-cover"
                         />
                       ) : null}
@@ -164,10 +167,10 @@ export function Confirmation() {
                         {product ? `${product.brand} - ${product.category}` : 'Producto comprado'}
                       </p>
                       <p className="text-gray-600 text-sm">
-                        Cantidad: {quantity} × ${detail.precio_unitario}
+                        Cantidad: {quantity} x {formatCurrencyGTQ(detail.precio_unitario)}
                       </p>
                     </div>
-                    <div className="font-bold text-gray-900 text-lg">${detail.subtotal}</div>
+                    <div className="font-bold text-gray-900 text-lg">{formatCurrencyGTQ(detail.subtotal)}</div>
                   </div>
                 ))}
               </div>

@@ -84,7 +84,7 @@ export function Catalog() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen client-page-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -98,7 +98,7 @@ export function Catalog() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="lg:hidden flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+            className="lg:hidden flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-[rgba(173,235,179,0.38)] transition"
           >
             <SlidersHorizontal className="w-5 h-5" />
             <span>Filtros</span>
@@ -109,7 +109,7 @@ export function Catalog() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
             >
               <option value="featured">Destacados</option>
               <option value="price-asc">Precio: Menor a Mayor</option>
@@ -136,7 +136,7 @@ export function Catalog() {
                         type="checkbox"
                         checked={selectedCategories.includes(category)}
                         onChange={() => toggleCategory(category)}
-                        className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                        className="w-4 h-4 text-[var(--primary-hover)] rounded focus:ring-[var(--primary)]"
                       />
                       <span className="text-gray-700">{category}</span>
                     </label>
@@ -154,7 +154,7 @@ export function Catalog() {
                         type="checkbox"
                         checked={selectedBrands.includes(brand)}
                         onChange={() => toggleBrand(brand)}
-                        className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                        className="w-4 h-4 text-[var(--primary-hover)] rounded focus:ring-[var(--primary)]"
                       />
                       <span className="text-gray-700">{brand}</span>
                     </label>
@@ -189,7 +189,7 @@ export function Catalog() {
                     type="checkbox"
                     checked={inStockOnly}
                     onChange={(e) => setInStockOnly(e.target.checked)}
-                    className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                    className="w-4 h-4 text-[var(--primary-hover)] rounded focus:ring-[var(--primary)]"
                   />
                   <span className="text-gray-700">Solo en stock</span>
                 </label>
@@ -203,7 +203,7 @@ export function Catalog() {
                   setPriceRange([0, 2000]);
                   setInStockOnly(false);
                 }}
-                className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition font-medium"
+                className="w-full bg-[rgba(173,235,179,0.55)] text-[#31534c] py-2 rounded-lg hover:bg-[rgba(173,235,179,0.8)] transition font-medium"
               >
                 Limpiar Filtros
               </button>
@@ -226,22 +226,25 @@ export function Catalog() {
                     <Link to={`/producto/${product.id}`}>
                       <div className="relative h-64 overflow-hidden bg-gray-100">
                         <img
-                          src={product.image}
+                          src={product.imagen}
                           alt={product.name}
+                          onError={(e) => {
+                            e.currentTarget.src = "/images/productos/placeholder-producto.png";
+                          }}
                           className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                         />
                         {product.isNew && (
-                          <span className="absolute top-3 left-3 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          <span className="absolute top-3 left-3 bg-[var(--primary)] text-[#10231f] px-3 py-1 rounded-full text-sm font-bold">
                             Nuevo
                           </span>
                         )}
                         {product.stock < 10 && product.stock > 0 && (
-                          <span className="absolute top-3 right-3 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          <span className="absolute top-3 right-3 bg-[var(--secondary)] text-[#10231f] px-3 py-1 rounded-full text-sm font-bold">
                             ¡Pocos!
                           </span>
                         )}
                         {product.stock === 0 && (
-                          <span className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          <span className="absolute top-3 right-3 bg-[var(--secondary)] text-[#10231f] px-3 py-1 rounded-full text-sm font-bold">
                             Agotado
                           </span>
                         )}
@@ -255,17 +258,17 @@ export function Catalog() {
                     </Link>
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm text-purple-600 font-semibold">{product.brand}</p>
+                        <p className="text-sm text-[var(--primary-hover)] font-semibold">{product.brand}</p>
                         <p className="text-xs text-gray-500">{product.category}</p>
                       </div>
                       <Link to={`/producto/${product.id}`}>
-                        <h3 className="font-bold text-lg mb-2 text-gray-900 hover:text-purple-600 transition line-clamp-2">
+                        <h3 className="font-bold text-lg mb-2 text-gray-900 hover:text-[var(--primary-hover)] transition line-clamp-2">
                           {product.name}
                         </h3>
                       </Link>
                       <p className="text-sm text-gray-600 mb-4 line-clamp-2">{product.description}</p>
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-2xl font-bold text-gray-900">${product.price}</span>
+                        <span className="text-2xl font-bold text-[var(--primary-hover)]">${product.price}</span>
                         <span className="text-sm text-gray-500">{product.stock} en stock</span>
                       </div>
                       <button
@@ -273,8 +276,8 @@ export function Catalog() {
                         disabled={product.stock === 0}
                         className={`w-full py-3 rounded-full font-bold transition flex items-center justify-center space-x-2 ${
                           product.stock === 0
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600"
+                            ? "bg-[rgba(173,235,179,0.45)] text-[#58736d] cursor-not-allowed"
+                            : "client-primary-gradient text-[#10231f] "
                         }`}
                       >
                         <ShoppingCart className="w-5 h-5" />
@@ -291,3 +294,8 @@ export function Catalog() {
     </div>
   );
 }
+
+
+
+
+

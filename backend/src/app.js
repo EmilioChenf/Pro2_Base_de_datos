@@ -1,5 +1,7 @@
 import cors from 'cors';
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import { env } from './config/env.js';
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js';
@@ -13,9 +15,12 @@ import productRoutes from './routes/productRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import saleRoutes from './routes/saleRoutes.js';
 import supplierRoutes from './routes/supplierRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
@@ -30,6 +35,7 @@ app.use(
   }),
 );
 app.use(express.json({ limit: '2mb' }));
+app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')));
 
 app.use('/health', healthRoutes);
 app.use('/api/auth', authRoutes);
@@ -42,6 +48,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/sales', saleRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

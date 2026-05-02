@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-plushstore_db}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-tienda_peluches}
       MYSQL_USER: ${MYSQL_USER:-proy2}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secret}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootsecret}
@@ -14,7 +14,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./backend/src/sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -P 3306 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -25,22 +25,24 @@ services:
       context: ./backend
     restart: unless-stopped
     environment:
-      PORT: 4000
+      PORT: 3000
       NODE_ENV: production
-      JWT_SECRET: ${JWT_SECRET:-change-this-super-secret-key}
+      JWT_SECRET: ${JWT_SECRET:-secret_jwt_dev}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:8080}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8080}
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${MYSQL_DATABASE:-plushstore_db}
+      DB_NAME: ${MYSQL_DATABASE:-tienda_peluches}
       DB_USER: ${MYSQL_USER:-proy2}
       DB_PASSWORD: ${MYSQL_PASSWORD:-secret}
       DB_CONNECTION_LIMIT: ${DB_CONNECTION_LIMIT:-10}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
     ports:
-      - "${BACKEND_PORT:-4000}:4000"
+      - "${BACKEND_PORT:-3000}:3000"
+    volumes:
+      - backend_uploads:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -48,7 +50,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "node -e \"fetch('http://127.0.0.1:4000/health').then((res)=>{if(!res.ok)process.exit(1)}).catch(()=>process.exit(1))\"",
+          "node -e \"fetch('http://127.0.0.1:3000/health').then((res)=>{if(!res.ok)process.exit(1)}).catch(()=>process.exit(1))\"",
         ]
       interval: 15s
       timeout: 5s
@@ -70,3 +72,4 @@ services:
 
 volumes:
   mysql_data:
+  backend_uploads:

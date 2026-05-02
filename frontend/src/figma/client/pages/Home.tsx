@@ -3,6 +3,8 @@ import { ShoppingCart, Star, TrendingUp, Sparkles } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
 import { useStore } from '@/context/StoreContext';
+import { formatCurrencyGTQ } from '@/utils/format';
+import { useImageFallback } from '@/utils/images';
 
 export function Home() {
   const { addToCart } = useCart();
@@ -59,6 +61,7 @@ export function Home() {
                     <img
                       src={product.image}
                       alt={product.name}
+                      onError={useImageFallback}
                       className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                     />
                     {product.stock < 10 && (
@@ -76,7 +79,7 @@ export function Home() {
                     </h3>
                   </Link>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-gray-900">${product.price}</span>
+                    <span className="text-2xl font-bold text-gray-900">{formatCurrencyGTQ(product.price)}</span>
                     <span className="text-sm text-gray-500">{product.stock} disponibles</span>
                   </div>
                   <button
@@ -155,6 +158,7 @@ export function Home() {
                     <img
                       src={product.image}
                       alt={product.name}
+                      onError={useImageFallback}
                       className="w-full h-full object-cover hover:scale-110 transition duration-300"
                     />
                   </div>
@@ -167,7 +171,7 @@ export function Home() {
                     </h3>
                   </Link>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-gray-900">${product.price}</span>
+                    <span className="text-xl font-bold text-gray-900">{formatCurrencyGTQ(product.price)}</span>
                     <button
                       onClick={() => addToCart(product)}
                       className="bg-purple-500 text-white p-2 rounded-full hover:bg-purple-600 transition"
@@ -200,6 +204,7 @@ export function Home() {
                     <img
                       src={product.image}
                       alt={product.name}
+                      onError={useImageFallback}
                       className="w-full h-full object-cover hover:scale-110 transition duration-300"
                     />
                     <span className="absolute top-3 left-3 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
@@ -215,7 +220,7 @@ export function Home() {
                     </h3>
                   </Link>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-gray-900">${product.price}</span>
+                    <span className="text-xl font-bold text-gray-900">{formatCurrencyGTQ(product.price)}</span>
                     <button
                       onClick={() => addToCart(product)}
                       className="bg-purple-500 text-white p-2 rounded-full hover:bg-purple-600 transition"

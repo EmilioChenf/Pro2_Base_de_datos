@@ -4,6 +4,7 @@ import { Package, Calendar, CreditCard, Eye, ShoppingBag } from 'lucide-react';
 
 import { useStore } from '@/context/StoreContext';
 import { fetchSaleById } from '@/services/catalogService';
+import { formatCurrencyGTQ } from '@/utils/format';
 import type { SaleDetail } from '@/types';
 
 export function Orders() {
@@ -81,7 +82,7 @@ export function Orders() {
                   <div className="flex items-center gap-4">
                     <div className="text-right">
                       <p className="text-pink-100 text-sm mb-1">Total</p>
-                      <p className="text-2xl font-bold">${order.total}</p>
+                      <p className="text-2xl font-bold">{formatCurrencyGTQ(order.total)}</p>
                     </div>
                     <span className={`px-4 py-2 rounded-full font-semibold ${status.color}`}>
                       {status.label}
@@ -151,10 +152,10 @@ export function Orders() {
                                 {item.producto}
                               </p>
                               <p className="text-gray-600 text-xs">
-                                {item.cantidad} × ${item.precio_unitario}
+                                {item.cantidad} x {formatCurrencyGTQ(item.precio_unitario)}
                               </p>
                             </div>
-                            <div className="font-bold text-gray-900">${item.subtotal}</div>
+                            <div className="font-bold text-gray-900">{formatCurrencyGTQ(item.subtotal)}</div>
                           </div>
                         );
                       })}

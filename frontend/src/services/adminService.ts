@@ -109,3 +109,20 @@ export async function createSale(payload: {
   const response = await api.post<SaleDetail>('/sales', payload);
   return response.data;
 }
+
+export async function uploadProductImage(file: File) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await api.post<{ filename: string; url: string }>(
+    '/uploads/product-image',
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+
+  return response.data;
+}

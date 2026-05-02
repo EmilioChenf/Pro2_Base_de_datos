@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, User, Search, Menu } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
@@ -9,19 +9,25 @@ export function Header() {
   const { getTotalItems } = useCart();
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    navigate(value.trim() ? `/catalogo?search=${encodeURIComponent(value)}` : '/catalogo');
+  };
+
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (searchQuery.trim()) {
-      navigate(`/catalogo?search=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery('');
-    }
   };
 
   const totalItems = getTotalItems();
+  const currentPath = `${location.pathname}${location.search}`;
+  const navClass = (target: string) =>
+    `text-gray-700 hover:text-pink-500 transition ${
+      currentPath === target ? 'text-pink-500 font-semibold' : ''
+    }`;
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -37,27 +43,27 @@ export function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/cliente" className="text-gray-700 hover:text-pink-500 transition">
+            <Link to="/cliente" className={navClass('/cliente')}>
               Inicio
             </Link>
-            <Link to="/catalogo" className="text-gray-700 hover:text-pink-500 transition">
+            <Link to="/catalogo" className={navClass('/catalogo')}>
               Catalogo
             </Link>
             <Link
               to="/catalogo?category=Peluches"
-              className="text-gray-700 hover:text-pink-500 transition"
+              className={navClass('/catalogo?category=Peluches')}
             >
               Peluches
             </Link>
             <Link
               to="/catalogo?brand=Escandalosos"
-              className="text-gray-700 hover:text-pink-500 transition"
+              className={navClass('/catalogo?brand=Escandalosos')}
             >
               Escandalosos
             </Link>
             <Link
               to="/catalogo?brand=Snoopy"
-              className="text-gray-700 hover:text-pink-500 transition"
+              className={navClass('/catalogo?brand=Snoopy')}
             >
               Snoopy
             </Link>
@@ -72,7 +78,7 @@ export function Header() {
                 type="text"
                 placeholder="Buscar productos..."
                 value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
+                onChange={(event) => handleSearchChange(event.target.value)}
                 className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -171,9 +177,9 @@ export function Header() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Buscar productos..."
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Buscar productos..."
+                value={searchQuery}
+                  onChange={(event) => handleSearchChange(event.target.value)}
                   className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400"
                 />
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />

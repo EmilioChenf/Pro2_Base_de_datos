@@ -1,158 +1,163 @@
-# PlushStore
+# PlushStore - Proyecto 2 Base de Datos
 
-Aplicacion web full stack con frontend React unificado desde las vistas de Figma (`login`, `vista_admin`, `vista_cliente`), backend Node.js/Express, autenticacion con JWT y Google OAuth, MySQL con SQL explicito y despliegue completo con Docker Compose.
+Tienda web de peluches y merch con frontend React, backend Node.js/Express y MySQL. El proyecto conserva las vistas integradas desde Figma para login, administrador y cliente, agregando logica real, autenticacion, roles, CRUDs, carrito, checkout, reportes SQL y Docker.
 
-## Requisitos
+## Tecnologias
 
-- Docker Desktop o Docker Engine con Docker Compose
-- Opcional para ejecucion local sin Docker: Node.js 20+ y MySQL 8
+- React + Vite + TypeScript
+- Node.js + Express
+- MySQL 8
+- SQL explicito con `mysql2`, sin ORM
+- JWT + bcrypt
+- Docker Compose + Nginx
+
+## Estructura
+
+```text
+/
+|-- frontend/
+|   |-- src/components
+|   |-- src/context
+|   |-- src/figma
+|   |-- src/layouts
+|   |-- src/pages
+|   |-- src/routes
+|   |-- src/services
+|   |-- Dockerfile
+|   `-- .env.example
+|-- backend/
+|   |-- src/config
+|   |-- src/controllers
+|   |-- src/db
+|   |-- src/middlewares
+|   |-- src/routes
+|   |-- src/services
+|   |-- src/sql/init.sql
+|   |-- Dockerfile
+|   `-- .env.example
+|-- docker-compose.yml
+|-- .env.example
+`-- README.md
+```
 
 ## Variables de entorno
 
-Archivo raiz opcional: `.env`
+Raiz:
 
-Usa como base [`.env.example`](./.env.example).
+```env
+MYSQL_DATABASE=tienda_peluches
+MYSQL_USER=proy2
+MYSQL_PASSWORD=secret
+MYSQL_ROOT_PASSWORD=rootsecret
+BACKEND_PORT=3000
+FRONTEND_PORT=8080
+JWT_SECRET=secret_jwt_dev
+VITE_API_URL=/api
+```
 
-Variables principales:
+Backend:
 
-- `MYSQL_DATABASE=plushstore_db`
-- `MYSQL_USER=proy2`
-- `MYSQL_PASSWORD=secret`
-- `MYSQL_ROOT_PASSWORD=rootsecret`
-- `MYSQL_PORT=13306`
-- `FRONTEND_PORT=8080`
-- `BACKEND_PORT=4000`
-- `JWT_SECRET=change-this-super-secret-key`
-- `GOOGLE_CLIENT_ID=`
-- `GOOGLE_CLIENT_SECRET=`
+```env
+DB_HOST=db
+DB_PORT=3306
+DB_NAME=tienda_peluches
+DB_USER=proy2
+DB_PASSWORD=secret
+JWT_SECRET=secret_jwt_dev
+PORT=3000
+```
 
-Archivos de referencia adicionales:
+Frontend local:
 
-- [frontend/.env.example](./frontend/.env.example)
-- [backend/.env.example](./backend/.env.example)
+```env
+VITE_API_URL=http://localhost:3000/api
+```
 
-## Como levantar con Docker
-
-1. Opcionalmente copia `.env.example` a `.env` y ajusta valores.
-2. Ejecuta:
+## Ejecutar con Docker
 
 ```bash
 docker compose up --build
 ```
 
-Servicios disponibles:
+Servicios:
 
 - Frontend: `http://localhost:8080`
-- Backend: `http://localhost:4000`
-- Health backend: `http://localhost:4000/health`
+- Backend: `http://localhost:3000`
+- Health: `http://localhost:3000/health`
 - MySQL: `localhost:13306`
 
-La base de datos se inicializa automaticamente con el script [backend/src/sql/init.sql](./backend/src/sql/init.sql).
+Si ya levantaste una version anterior con otro nombre de base, reinicia el volumen:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
 
 ## Credenciales de prueba
 
-Administrador inicial:
+- Administrador: `admin@tienda.com` / `Admin123`
+- Cliente: `cliente@tienda.com` / `Cliente123`
 
-- Correo: `admin@plushstore.com`
-- Password: `Admin123!`
+## Funcionalidades
 
-Clientes semilla:
-
-- `maria@cliente.com` / `Cliente123!`
-- `carlos@cliente.com` / `Cliente123!`
-- `ana@cliente.com` / `Cliente123!`
-
-## Google OAuth
-
-Para habilitar login/registro con Google configura:
-
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `frontend/.env` o `.env` con el mismo `GOOGLE_CLIENT_ID`
-
-El frontend usa `VITE_GOOGLE_CLIENT_ID` en build y el backend valida el `access_token` contra Google UserInfo. Si un usuario de Google no existe, se crea automaticamente con rol `CLIENTE` y su registro relacionado en `CLIENTES`.
-
-## Estructura del proyecto
-
-```text
-/
-|-- frontend/
-|   |-- src/
-|   |   |-- components/
-|   |   |-- context/
-|   |   |-- figma/
-|   |   |-- layouts/
-|   |   |-- pages/
-|   |   |-- routes/
-|   |   |-- services/
-|   |   |-- styles/
-|   |   `-- types/
-|   |-- Dockerfile
-|   `-- nginx.conf
-|-- backend/
-|   |-- src/
-|   |   |-- config/
-|   |   |-- controllers/
-|   |   |-- db/
-|   |   |-- middlewares/
-|   |   |-- routes/
-|   |   |-- services/
-|   |   `-- sql/
-|   `-- Dockerfile
-|-- docker-compose.yml
-`-- .env.example
-```
-
-## Funcionalidad incluida
-
-- Login y registro con correo/password
-- Login y registro con Google
-- Hash de contrasenas con bcrypt
-- Sesion con JWT
-- Redireccion automatica por rol
-- Rutas protegidas para `ADMIN` y `CLIENTE`
-- Logout funcional
-- CRUD de productos
-- CRUD de categorias
-- CRUD de proveedores
-- CRUD de clientes
-- CRUD de usuarios
-- CRUD de metodos de pago
-- Ventas con transaccion SQL explicita
-- Reportes basicos para admin
-- Catalogo, busqueda, filtros, carrito, checkout e historial para cliente
+- Login, logout y registro de cliente.
+- Passwords hasheadas con bcrypt.
+- Sesion con JWT en `Authorization: Bearer`.
+- Middleware de autenticacion y autorizacion por rol.
+- Redireccion por rol: admin a `/admin`, cliente a `/cliente`.
+- CRUD admin de productos, categorias, proveedores, clientes, usuarios y metodos de pago.
+- Dashboard con datos reales.
+- Catalogo cliente desde MySQL con busqueda, filtros por categoria, marca, precio y stock.
+- Carrito con cantidades, subtotales y total.
+- Checkout con metodo de pago, registro de venta y detalle, actualizacion de stock y error por stock insuficiente.
+- Ventas admin con registro manual y detalle.
+- Reportes visibles con datos reales y exportacion CSV.
 
 ## Endpoints principales
 
-- `/api/auth/login`
-- `/api/auth/register`
-- `/api/auth/google`
-- `/api/auth/me`
-- `/api/products`
-- `/api/categories`
-- `/api/suppliers`
-- `/api/customers`
-- `/api/users`
-- `/api/sales`
-- `/api/payment-methods`
-- `/api/reports`
+- `POST /api/auth/login`
+- `POST /api/auth/register`
+- `GET /api/auth/me`
+- `GET|POST|PUT|DELETE /api/products`
+- `GET|POST|PUT|DELETE /api/categories`
+- `GET|POST|PUT|DELETE /api/suppliers`
+- `GET|POST|PUT|DELETE /api/customers`
+- `GET|POST|PUT|DELETE /api/payment-methods`
+- `GET /api/sales`
+- `GET /api/sales/:id`
+- `POST /api/sales`
+- `GET /api/reports/dashboard`
+- `GET /api/reports/overview`
+- `GET /api/reports/recent-sales.csv`
 
-## Ejecucion local sin Docker
+## SQL de la rubrica
 
-Backend:
+Todo esta en consultas ejecutadas por el backend y visible en admin:
 
-```bash
-cd backend
-npm install
-npm run start
-```
+- JOIN ventas + cliente + usuario + metodo de pago: `GET /api/sales`, `GET /api/reports/overview`.
+- JOIN detalle + productos + categorias + marcas: seccion "JOINs Visibles" en Reportes.
+- JOIN productos + categoria + proveedor + marca: catalogo, CRUD productos y Reportes.
+- Subquery stock bajo promedio: Reportes, "Stock bajo el promedio".
+- Subquery clientes con compras mayores al promedio: Reportes, "Clientes sobre compra promedio".
+- GROUP BY y agregaciones: ventas por producto, ventas por metodo de pago, ingresos por fecha/mes.
+- HAVING: productos con mas de 2 unidades vendidas.
+- CTE `WITH`: ranking de productos mas vendidos en `reportController.js`.
+- VIEW: `vista_resumen_ventas` creada en `backend/src/sql/init.sql` y usada por reportes/CSV.
 
-Frontend:
+## Transaccion
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+La transaccion obligatoria esta en `backend/src/controllers/saleController.js`, funcion `createSale`:
 
-Necesitas un MySQL 8 corriendo y configurar [backend/.env.example](./backend/.env.example) y [frontend/.env.example](./frontend/.env.example) como `.env`.
+- `BEGIN`
+- valida productos con `FOR UPDATE`
+- inserta `ventas`
+- inserta `detalle_venta`
+- actualiza stock
+- `ROLLBACK` si falla
+- `COMMIT` si todo termina bien
+
+Esta transaccion se usa desde checkout cliente y desde "Nueva Venta" del admin.
+
+## Exportacion CSV
+
+En admin abre `Reportes` y usa el boton `Exportar CSV`. Descarga `ventas-recientes.csv` con datos reales desde la VIEW `vista_resumen_ventas`.

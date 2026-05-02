@@ -1,30 +1,34 @@
-/* KEEP_IN_SYNC(fullscreen/resources/figmake/shadcn/globals.css) */
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
+  --primary: #08FCB8;
+  --secondary: #ADEBB3;
+  --soft: #A5FFF2;
+  --primary-hover: #06dca2;
+  --secondary-hover: #95dda0;
+  --ink: #10231f;
+  --background: #f5fffc;
+  --foreground: #10231f;
   --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
-  --muted: #ececf0;
-  --muted-foreground: #717182;
-  --accent: #e9ebef;
-  --accent-foreground: #030213;
+  --card-foreground: #10231f;
+  --popover: #ffffff;
+  --popover-foreground: #10231f;
+  --primary-foreground: #06352a;
+  --secondary-foreground: #10231f;
+  --muted: #e9fff9;
+  --muted-foreground: #58736d;
+  --accent: #A5FFF2;
+  --accent-foreground: #10231f;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.1);
+  --border: rgba(8, 252, 184, 0.28);
   --input: transparent;
-  --input-background: #f3f3f5;
-  --switch-background: #cbced4;
+  --input-background: #A5FFF2;
+  --switch-background: #ADEBB3;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
+  --ring: #08FCB8;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -33,7 +37,7 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
+  --sidebar-primary: #08FCB8;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -117,4 +121,143 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}
+
+@layer utilities {
+  .client-page-bg {
+    background-color: #f5fffc;
+  }
+
+  .client-soft-bg {
+    background-color: var(--soft);
+  }
+
+  .client-secondary-bg {
+    background-color: var(--secondary);
+  }
+
+  .client-primary-text {
+    color: var(--primary-hover);
+  }
+
+  .client-primary-border {
+    border-color: var(--primary);
+  }
+
+  .client-soft-border {
+    border-color: rgba(8, 252, 184, 0.28);
+  }
+
+  .client-primary-gradient {
+    background-image: linear-gradient(135deg, var(--primary) 0%, var(--soft) 100%);
+    color: var(--ink);
+  }
+
+  .client-primary-gradient:hover {
+    background-image: linear-gradient(135deg, var(--primary-hover) 0%, var(--secondary) 100%);
+  }
+
+  .client-hero-gradient {
+    background-image: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 48%, var(--soft) 100%);
+    color: var(--ink);
+  }
+
+  .client-section-gradient {
+    background-image: linear-gradient(135deg, rgba(165, 255, 242, 0.6) 0%, rgba(173, 235, 179, 0.55) 100%);
+  }
+
+  .client-card {
+    border: 1px solid rgba(8, 252, 184, 0.18);
+    background-color: #ffffff;
+  }
+
+  .client-card:hover {
+    border-color: rgba(8, 252, 184, 0.42);
+  }
+
+  .client-input {
+    background-color: rgba(165, 255, 242, 0.34);
+    border-color: rgba(8, 252, 184, 0.34);
+  }
+
+  .client-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(8, 252, 184, 0.32);
+  }
+
+  .client-badge-primary {
+    background-color: var(--primary);
+    color: var(--ink);
+  }
+
+  .client-badge-secondary {
+    background-color: var(--secondary);
+    color: var(--ink);
+  }
+
+  .client-badge-soft {
+    background-color: var(--soft);
+    color: var(--ink);
+  }
 }

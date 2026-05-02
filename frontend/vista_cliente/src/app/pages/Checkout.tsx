@@ -77,7 +77,7 @@ export function Checkout() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen client-page-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Finalizar Compra</h1>
 
@@ -99,13 +99,13 @@ export function Checkout() {
                       id="fullName"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${
-                        errors.fullName ? "border-red-500" : "border-gray-300"
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                        errors.fullName ? "border-[var(--primary-hover)]" : "border-gray-300"
                       }`}
                       placeholder="Juan Pérez García"
                     />
                     {errors.fullName && (
-                      <p className="text-red-500 text-sm mt-1 flex items-center space-x-1">
+                      <p className="text-[#057f63] text-sm mt-1 flex items-center space-x-1">
                         <AlertCircle className="w-4 h-4" />
                         <span>{errors.fullName}</span>
                       </p>
@@ -121,13 +121,13 @@ export function Checkout() {
                       id="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${
-                        errors.email ? "border-red-500" : "border-gray-300"
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                        errors.email ? "border-[var(--primary-hover)]" : "border-gray-300"
                       }`}
                       placeholder="correo@ejemplo.com"
                     />
                     {errors.email && (
-                      <p className="text-red-500 text-sm mt-1 flex items-center space-x-1">
+                      <p className="text-[#057f63] text-sm mt-1 flex items-center space-x-1">
                         <AlertCircle className="w-4 h-4" />
                         <span>{errors.email}</span>
                       </p>
@@ -143,13 +143,13 @@ export function Checkout() {
                       id="phone"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${
-                        errors.phone ? "border-red-500" : "border-gray-300"
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                        errors.phone ? "border-[var(--primary-hover)]" : "border-gray-300"
                       }`}
                       placeholder="5512345678"
                     />
                     {errors.phone && (
-                      <p className="text-red-500 text-sm mt-1 flex items-center space-x-1">
+                      <p className="text-[#057f63] text-sm mt-1 flex items-center space-x-1">
                         <AlertCircle className="w-4 h-4" />
                         <span>{errors.phone}</span>
                       </p>
@@ -166,8 +166,8 @@ export function Checkout() {
                   <label
                     className={`flex items-center space-x-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                       paymentMethod === "tarjeta"
-                        ? "border-purple-500 bg-purple-50"
-                        : "border-gray-200 hover:border-purple-300"
+                        ? "border-[var(--primary)] bg-[rgba(165,255,242,0.42)]"
+                        : "border-gray-200 hover:border-[var(--secondary)]"
                     }`}
                   >
                     <input
@@ -176,9 +176,9 @@ export function Checkout() {
                       value="tarjeta"
                       checked={paymentMethod === "tarjeta"}
                       onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                      className="w-5 h-5 text-purple-600"
+                      className="w-5 h-5 text-[var(--primary-hover)]"
                     />
-                    <CreditCard className="w-6 h-6 text-purple-600" />
+                    <CreditCard className="w-6 h-6 text-[var(--primary-hover)]" />
                     <div className="flex-1">
                       <div className="font-bold text-gray-900">Tarjeta de Crédito/Débito</div>
                       <div className="text-sm text-gray-600">Pago seguro con tarjeta</div>
@@ -188,8 +188,8 @@ export function Checkout() {
                   <label
                     className={`flex items-center space-x-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                       paymentMethod === "efectivo"
-                        ? "border-purple-500 bg-purple-50"
-                        : "border-gray-200 hover:border-purple-300"
+                        ? "border-[var(--primary)] bg-[rgba(165,255,242,0.42)]"
+                        : "border-gray-200 hover:border-[var(--secondary)]"
                     }`}
                   >
                     <input
@@ -198,9 +198,9 @@ export function Checkout() {
                       value="efectivo"
                       checked={paymentMethod === "efectivo"}
                       onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                      className="w-5 h-5 text-purple-600"
+                      className="w-5 h-5 text-[var(--primary-hover)]"
                     />
-                    <Banknote className="w-6 h-6 text-green-600" />
+                    <Banknote className="w-6 h-6 text-[var(--primary-hover)]" />
                     <div className="flex-1">
                       <div className="font-bold text-gray-900">Efectivo</div>
                       <div className="text-sm text-gray-600">Pago contra entrega</div>
@@ -210,8 +210,8 @@ export function Checkout() {
                   <label
                     className={`flex items-center space-x-4 p-4 border-2 rounded-xl cursor-pointer transition ${
                       paymentMethod === "transferencia"
-                        ? "border-purple-500 bg-purple-50"
-                        : "border-gray-200 hover:border-purple-300"
+                        ? "border-[var(--primary)] bg-[rgba(165,255,242,0.42)]"
+                        : "border-gray-200 hover:border-[var(--secondary)]"
                     }`}
                   >
                     <input
@@ -220,9 +220,9 @@ export function Checkout() {
                       value="transferencia"
                       checked={paymentMethod === "transferencia"}
                       onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                      className="w-5 h-5 text-purple-600"
+                      className="w-5 h-5 text-[var(--primary-hover)]"
                     />
-                    <Building2 className="w-6 h-6 text-blue-600" />
+                    <Building2 className="w-6 h-6 text-[var(--primary-hover)]" />
                     <div className="flex-1">
                       <div className="font-bold text-gray-900">Transferencia Bancaria</div>
                       <div className="text-sm text-gray-600">Transferencia SPEI</div>
@@ -242,8 +242,11 @@ export function Checkout() {
                     <div key={item.product.id} className="flex items-center space-x-3">
                       <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                         <img
-                          src={item.product.image}
+                          src={item.product.imagen || item.product.image}
                           alt={item.product.name}
+                          onError={(e) => {
+                            e.currentTarget.src = "/images/productos/placeholder-producto.png";
+                          }}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -269,12 +272,12 @@ export function Checkout() {
                   </div>
                   <div className="flex justify-between text-gray-700">
                     <span>Envío</span>
-                    <span className="font-semibold text-green-600">Gratis</span>
+                    <span className="font-semibold text-[var(--primary-hover)]">Gratis</span>
                   </div>
                   <div className="border-t border-gray-200 pt-3">
                     <div className="flex justify-between items-center">
                       <span className="text-xl font-bold text-gray-900">Total</span>
-                      <span className="text-3xl font-bold text-gray-900">${totalPrice}</span>
+                      <span className="text-3xl font-bold text-[var(--primary-hover)]">${totalPrice}</span>
                     </div>
                     <p className="text-sm text-gray-500 mt-1 text-right">MXN</p>
                   </div>
@@ -282,7 +285,7 @@ export function Checkout() {
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-full font-bold text-lg hover:from-pink-600 hover:to-purple-600 transition shadow-lg hover:shadow-xl mt-6"
+                  className="w-full client-primary-gradient text-[#10231f] py-4 rounded-full font-bold text-lg  transition shadow-lg hover:shadow-xl mt-6"
                 >
                   Confirmar Pedido
                 </button>
@@ -298,3 +301,8 @@ export function Checkout() {
     </div>
   );
 }
+
+
+
+
+

@@ -18,10 +18,13 @@ function mapProductRow(row, { bestSellerIds, newestIds }) {
     imagen: row.imagen,
     id_categoria: row.id_categoria,
     categoria: row.categoria,
+    nombre_categoria: row.categoria,
     id_proveedor: row.id_proveedor,
     proveedor: row.proveedor,
+    nombre_proveedor: row.proveedor,
     id_marca: row.id_marca,
     marca: row.marca,
+    nombre_marca: row.marca,
     isBestSeller: bestSellerIds.has(row.id_producto),
     isNew: newestIds.has(row.id_producto),
     isFeatured:

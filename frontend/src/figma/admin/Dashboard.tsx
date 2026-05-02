@@ -19,6 +19,7 @@ import {
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { fetchDashboardReport } from '@/services/catalogService';
+import { formatCurrencyGTQ } from '@/utils/format';
 import type { DashboardReport } from '@/types';
 
 export function Dashboard() {
@@ -91,7 +92,7 @@ export function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-gray-900">
-              ${Number(summary.ingresos_mes).toLocaleString()}
+              {formatCurrencyGTQ(summary.ingresos_mes)}
             </div>
             <p className="text-xs text-purple-600 mt-1 flex items-center gap-1">
               <TrendingUp className="w-3 h-3" />
@@ -183,7 +184,7 @@ export function Dashboard() {
                     <td className="py-3 px-4 text-sm text-gray-600">{sale.fecha}</td>
                     <td className="py-3 px-4 text-sm text-gray-600">{sale.items}</td>
                     <td className="py-3 px-4 text-sm font-semibold text-gray-900">
-                      ${Number(sale.total).toLocaleString()}
+                      {formatCurrencyGTQ(sale.total)}
                     </td>
                   </tr>
                 ))}

@@ -1,4 +1,5 @@
 import type { Product, SaleDetail, SaleListItem } from '@/types';
+import { resolveProductImage } from './images';
 
 export function toLegacyProduct(product: Product) {
   return {
@@ -8,7 +9,8 @@ export function toLegacyProduct(product: Product) {
     category: product.categoria,
     brand: product.marca,
     description: product.descripcion,
-    image: product.imagen,
+    imagen: resolveProductImage(product.imagen),
+    image: resolveProductImage(product.imagen),
     stock: product.stock,
     isFeatured: product.isFeatured,
     isNew: product.isNew,

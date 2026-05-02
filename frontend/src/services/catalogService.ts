@@ -74,3 +74,10 @@ export async function fetchOverviewReport() {
   const response = await api.get<OverviewReport>('/reports/overview');
   return response.data;
 }
+
+export async function downloadRecentSalesCsv() {
+  const response = await api.get<Blob>('/reports/recent-sales.csv', {
+    responseType: 'blob',
+  });
+  return response.data;
+}

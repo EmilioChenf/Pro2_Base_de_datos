@@ -4,6 +4,8 @@ import { ShoppingCart, Minus, Plus, Package, Tag, Award } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
 import { useStore } from '@/context/StoreContext';
+import { formatCurrencyGTQ } from '@/utils/format';
+import { useImageFallback } from '@/utils/images';
 
 export function ProductDetail() {
   const { id } = useParams();
@@ -61,6 +63,7 @@ export function ProductDetail() {
                 <img
                   src={product.image}
                   alt={product.name}
+                  onError={useImageFallback}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -90,8 +93,8 @@ export function ProductDetail() {
               <h1 className="text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
 
               <div className="flex items-baseline space-x-4 mb-6">
-                <span className="text-5xl font-bold text-gray-900">${product.price}</span>
-                <span className="text-gray-500">MXN</span>
+                <span className="text-5xl font-bold text-gray-900">{formatCurrencyGTQ(product.price)}</span>
+                <span className="text-gray-500">GTQ</span>
               </div>
 
               <div className="bg-gray-50 rounded-xl p-4 mb-6">
@@ -179,6 +182,7 @@ export function ProductDetail() {
                     <img
                       src={relatedProduct.image}
                       alt={relatedProduct.name}
+                      onError={useImageFallback}
                       className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                     />
                   </div>
@@ -191,7 +195,7 @@ export function ProductDetail() {
                     </h3>
                     <div className="flex items-center justify-between">
                       <span className="text-xl font-bold text-gray-900">
-                        ${relatedProduct.price}
+                        {formatCurrencyGTQ(relatedProduct.price)}
                       </span>
                       <Tag className="w-5 h-5 text-purple-500" />
                     </div>

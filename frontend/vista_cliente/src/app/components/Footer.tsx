@@ -3,12 +3,12 @@ import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-20">
+    <footer className="client-soft-bg text-[#31534c] mt-20 border-t client-soft-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Plushie Paradise</h3>
+            <h3 className="text-[#10231f] font-bold text-lg mb-4">Plushie Paradise</h3>
             <p className="text-sm">
               Tu tienda favorita de peluches y merchandising oficial de Escandalosos y Snoopy.
             </p>
@@ -16,25 +16,25 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Enlaces</h3>
+            <h3 className="text-[#10231f] font-bold text-lg mb-4">Enlaces</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/catalogo" className="hover:text-white transition">
+                <Link to="/catalogo" className="hover:text-[var(--primary-hover)] transition">
                   Catálogo
                 </Link>
               </li>
               <li>
-                <Link to="/catalogo?category=Peluches" className="hover:text-white transition">
+                <Link to="/catalogo?category=Peluches" className="hover:text-[var(--primary-hover)] transition">
                   Peluches
                 </Link>
               </li>
               <li>
-                <Link to="/catalogo?category=Ropa" className="hover:text-white transition">
+                <Link to="/catalogo?category=Ropa" className="hover:text-[var(--primary-hover)] transition">
                   Ropa
                 </Link>
               </li>
               <li>
-                <Link to="/ordenes" className="hover:text-white transition">
+                <Link to="/ordenes" className="hover:text-[var(--primary-hover)] transition">
                   Mis Pedidos
                 </Link>
               </li>
@@ -43,7 +43,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Contacto</h3>
+            <h3 className="text-[#10231f] font-bold text-lg mb-4">Contacto</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
@@ -62,22 +62,22 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Síguenos</h3>
+            <h3 className="text-[#10231f] font-bold text-lg mb-4">Síguenos</h3>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-white transition">
+              <a href="#" className="hover:text-[var(--primary-hover)] transition">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a href="#" className="hover:text-[var(--primary-hover)] transition">
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a href="#" className="hover:text-[var(--primary-hover)] transition">
                 <Twitter className="w-6 h-6" />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+        <div className="border-t border-[rgba(8,252,184,0.28)] mt-8 pt-8 text-center text-sm">
           <p>&copy; 2026 Plushie Paradise. Todos los derechos reservados.</p>
         </div>
       </div>

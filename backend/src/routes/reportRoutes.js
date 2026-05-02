@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { dashboard, overview } from '../controllers/reportController.js';
+import { dashboard, overview, recentSalesCsv } from '../controllers/reportController.js';
 import { authenticate } from '../middlewares/auth.js';
 import { authorize } from '../middlewares/authorize.js';
 
@@ -10,5 +10,6 @@ router.use(authenticate, authorize('ADMIN'));
 
 router.get('/dashboard', dashboard);
 router.get('/overview', overview);
+router.get('/recent-sales.csv', recentSalesCsv);
 
 export default router;

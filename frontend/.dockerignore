@@ -2,6 +2,7 @@ node_modules
 dist
 .env
 npm-debug.log
+.npm-cache
 login/node_modules
 login/dist
 vista_admin/node_modules

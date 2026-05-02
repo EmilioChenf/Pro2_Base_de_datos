@@ -16,7 +16,11 @@ import {
   AlertDialogTitle,
 } from './ui/alert-dialog';
 import { Badge } from './ui/badge';
-import { saveProduct, deleteProduct as deleteProductRequest } from '@/services/adminService';
+import {
+  deleteProduct as deleteProductRequest,
+  saveProduct,
+  uploadProductImage,
+} from '@/services/adminService';
 import {
   fetchBrands,
   fetchCategories,
@@ -24,6 +28,8 @@ import {
   fetchSuppliers,
 } from '@/services/catalogService';
 import { getErrorMessage } from '@/utils/errors';
+import { formatCurrencyGTQ } from '@/utils/format';
+import { resolveProductImage, useImageFallback } from '@/utils/images';
 
 interface Product {
   id: number;
@@ -47,7 +53,7 @@ function mapProduct(product: any): Product {
     category: product.categoria,
     supplier: product.proveedor,
     brand: product.marca,
-    image: product.imagen,
+    image: resolveProductImage(product.imagen),
   };
 }
 
@@ -60,6 +66,7 @@ export function Products() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState<Partial<Product>>({});
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
 
@@ -149,6 +156,23 @@ export function Products() {
     }
   };
 
+  const handleImageUpload = async (file?: File | null) => {
+    if (!file) {
+      return;
+    }
+
+    try {
+      setIsUploadingImage(true);
+      const uploaded = await uploadProductImage(file);
+      setFormData((current) => ({ ...current, image: uploaded.url }));
+      toast.success('Imagen subida correctamente.');
+    } catch (error) {
+      toast.error(getErrorMessage(error, 'No se pudo subir la imagen.'));
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
   const filteredProducts = useMemo(
     () =>
       products.filter((product) => {
@@ -233,7 +257,7 @@ export function Products() {
                       <Badge variant="secondary">{product.category}</Badge>
                     </td>
                     <td className="py-3 px-4 text-sm text-gray-600">{product.brand}</td>
-                    <td className="py-3 px-4 text-sm font-semibold text-gray-900">${product.price}</td>
+                    <td className="py-3 px-4 text-sm font-semibold text-gray-900">{formatCurrencyGTQ(product.price)}</td>
                     <td className="py-3 px-4 text-sm">
                       <Badge variant={product.stock < 10 ? 'destructive' : 'default'}>
                         {product.stock}
@@ -259,11 +283,11 @@ export function Products() {
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle>{selectedProduct ? 'Editar Producto' : 'Nuevo Producto'}</DialogTitle>
           </DialogHeader>
-          <div className="grid grid-cols-2 gap-4 py-4">
+          <div className="grid grid-cols-2 gap-4 py-4 overflow-y-auto pr-2">
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">Nombre del Producto</label>
               <input
@@ -345,6 +369,35 @@ export function Products() {
               </datalist>
             </div>
             <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Imagen</label>
+              <input
+                type="text"
+                value={formData.image || ''}
+                onChange={(event) =>
+                  setFormData({ ...formData, image: event.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://... o nombre en /images"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(event) => handleImageUpload(event.target.files?.[0])}
+                className="mt-3 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {isUploadingImage && (
+                <p className="text-sm text-blue-600 mt-2">Subiendo imagen...</p>
+              )}
+              <div className="mt-3 h-28 w-28 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                <img
+                  src={resolveProductImage(formData.image || selectedProduct?.image)}
+                  alt="Vista previa"
+                  onError={useImageFallback}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">Proveedor</label>
               <input
                 list="product-suppliers"
@@ -363,9 +416,15 @@ export function Products() {
               </datalist>
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="pt-4 border-t border-gray-200 bg-white">
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">Guardar</Button>
+            <Button
+              onClick={handleSave}
+              disabled={isUploadingImage}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {selectedProduct ? 'Actualizar Producto' : 'Crear Producto'}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

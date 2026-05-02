@@ -48,10 +48,13 @@ export interface Product {
   imagen: string;
   id_categoria: number;
   categoria: string;
+  nombre_categoria?: string;
   id_proveedor: number;
   proveedor: string;
+  nombre_proveedor?: string;
   id_marca: number;
   marca: string;
+  nombre_marca?: string;
   isFeatured?: boolean;
   isNew?: boolean;
   isBestSeller?: boolean;
@@ -64,6 +67,7 @@ export interface ClientProduct {
   category: string;
   brand: string;
   description: string;
+  imagen: string;
   image: string;
   stock: number;
   isFeatured?: boolean;
@@ -165,16 +169,34 @@ export interface OverviewReport {
     units: number;
     revenue: number;
   }>;
+  recentSales: Array<{
+    id_venta: number;
+    fecha: string;
+    cliente: string;
+    usuario: string;
+    metodo_pago: string;
+    total: number;
+  }>;
+  salesByDate: Array<{ fecha: string; ventas: number; ingresos: number }>;
   lowStock: Array<{
     product: string;
     stock: number;
     minStock: number;
     reorder: number;
   }>;
+  havingProducts: Array<{ product: string; units: number; revenue: number }>;
   salesByProduct: Array<{
     name: string;
     ventas: number;
   }>;
+  topCustomers: Array<{ customer: string; purchases: number; amount: number }>;
+  belowAverageStock: Array<{ id_producto: number; nombre: string; stock: number }>;
+  customersAboveAverage: Array<{ customer: string; amount: number }>;
+  sqlSamples: {
+    salesJoin: Array<Record<string, string | number>>;
+    detailJoin: Array<Record<string, string | number>>;
+    productsJoin: Array<Record<string, string | number>>;
+  };
 }
 
 export interface CartItem {

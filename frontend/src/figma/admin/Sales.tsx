@@ -15,6 +15,7 @@ import {
   fetchSales,
 } from '@/services/catalogService';
 import { getErrorMessage } from '@/utils/errors';
+import { formatCurrencyGTQ } from '@/utils/format';
 
 interface SaleSummary {
   id: number;
@@ -218,7 +219,7 @@ export function Sales() {
                       <Badge variant="secondary">{sale.paymentMethod}</Badge>
                     </td>
                     <td className="py-3 px-4 text-sm font-semibold text-gray-900">
-                      ${Number(sale.total).toLocaleString()}
+                      {formatCurrencyGTQ(sale.total)}
                     </td>
                     <td className="py-3 px-4 text-sm">
                       <div className="flex justify-end">
@@ -280,8 +281,8 @@ export function Sales() {
                       <tr key={item.id_detalle} className="border-b border-gray-100">
                         <td className="py-3 text-sm text-gray-900">{item.producto}</td>
                         <td className="py-3 text-sm text-center text-gray-600">{item.cantidad}</td>
-                        <td className="py-3 text-sm text-right text-gray-600">${item.precio_unitario}</td>
-                        <td className="py-3 text-sm text-right font-semibold text-gray-900">${item.subtotal}</td>
+                        <td className="py-3 text-sm text-right text-gray-600">{formatCurrencyGTQ(item.precio_unitario)}</td>
+                        <td className="py-3 text-sm text-right font-semibold text-gray-900">{formatCurrencyGTQ(item.subtotal)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -289,7 +290,7 @@ export function Sales() {
                     <tr className="border-t-2 border-gray-300">
                       <td colSpan={3} className="py-3 text-right font-semibold text-gray-900">Total:</td>
                       <td className="py-3 text-right text-xl font-bold text-blue-600">
-                        ${Number(selectedSale.total).toLocaleString()}
+                        {formatCurrencyGTQ(selectedSale.total)}
                       </td>
                     </tr>
                   </tfoot>
@@ -353,7 +354,7 @@ export function Sales() {
                   <option value="">Seleccionar producto...</option>
                   {products.map((product) => (
                     <option key={product.id_producto} value={product.id_producto}>
-                      {product.nombre} - ${product.precio}
+                      {product.nombre} - {formatCurrencyGTQ(product.precio)}
                     </option>
                   ))}
                 </select>
@@ -380,7 +381,7 @@ export function Sales() {
                   {draftItems.map((item) => (
                     <div key={item.id_producto} className="flex justify-between items-center text-sm">
                       <span>{item.nombre} ({item.cantidad})</span>
-                      <span>${item.subtotal}</span>
+                      <span>{formatCurrencyGTQ(item.subtotal)}</span>
                     </div>
                   ))}
                 </div>
@@ -388,7 +389,7 @@ export function Sales() {
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex justify-between items-center">
                   <span className="font-semibold text-gray-900">Total:</span>
-                  <span className="text-2xl font-bold text-blue-600">${draftTotal.toFixed(2)}</span>
+                  <span className="text-2xl font-bold text-blue-600">{formatCurrencyGTQ(draftTotal)}</span>
                 </div>
               </div>
             </div>

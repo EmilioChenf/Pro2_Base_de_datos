@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 
-import { login, loginWithGoogle, me, register } from '../controllers/authController.js';
+import { login, loginWithGoogle, logout, me, register } from '../controllers/authController.js';
 import { authenticate } from '../middlewares/auth.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 
@@ -41,5 +41,6 @@ router.post(
 );
 
 router.get('/me', authenticate, me);
+router.post('/logout', authenticate, logout);
 
 export default router;

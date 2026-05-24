@@ -11,6 +11,7 @@ import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from '@/services/api';
 import {
   googleLoginRequest,
   loginRequest,
+  logoutRequest,
   meRequest,
   registerRequest,
 } from '@/services/authService';
@@ -35,11 +36,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function getPathForRole(role?: UserRole | null) {
-  if (role === 'ADMIN') {
-    return '/admin';
-  }
-
-  return '/cliente';
+  return role === 'CLIENTE' ? '/cliente' : '/admin';
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -105,6 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return response.user;
       },
       logout() {
+        logoutRequest().catch(() => {});
         localStorage.removeItem(TOKEN_STORAGE_KEY);
         localStorage.removeItem(USER_STORAGE_KEY);
         setToken(null);

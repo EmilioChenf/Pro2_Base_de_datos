@@ -18,7 +18,7 @@ router.get('/', listSuppliers);
 router.post(
   '/',
   authenticate,
-  authorize('ADMIN'),
+  authorize('ADMIN', 'GERENTE', 'INVENTARIO'),
   [
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
     body('correo').isEmail().withMessage('Debes enviar un correo valido.'),
@@ -31,7 +31,7 @@ router.post(
 router.put(
   '/:id',
   authenticate,
-  authorize('ADMIN'),
+  authorize('ADMIN', 'GERENTE', 'INVENTARIO'),
   [
     param('id').isInt().withMessage('ID invalido.'),
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
@@ -45,7 +45,7 @@ router.put(
 router.delete(
   '/:id',
   authenticate,
-  authorize('ADMIN'),
+  authorize('ADMIN', 'GERENTE', 'INVENTARIO'),
   [param('id').isInt().withMessage('ID invalido.'), validateRequest],
   deleteSupplier,
 );

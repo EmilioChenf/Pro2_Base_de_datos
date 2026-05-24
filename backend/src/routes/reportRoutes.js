@@ -21,7 +21,7 @@ import { authorize } from '../middlewares/authorize.js';
 
 const router = Router();
 
-router.use(authenticate, authorize('ADMIN'));
+router.use(authenticate, authorize('ADMIN', 'GERENTE'));
 
 router.get('/dashboard', dashboard);
 router.get('/overview', overview);

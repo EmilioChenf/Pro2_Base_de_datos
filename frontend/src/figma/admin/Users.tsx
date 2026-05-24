@@ -19,12 +19,13 @@ import { Badge } from './ui/badge';
 import { saveUser, deleteUser as deleteUserRequest } from '@/services/adminService';
 import { fetchUsers } from '@/services/catalogService';
 import { getErrorMessage } from '@/utils/errors';
+import type { UserRole } from '@/types';
 
 interface User {
   id: number;
   name: string;
   email: string;
-  role: 'ADMIN' | 'CLIENTE';
+  role: UserRole;
   password?: string;
 }
 
@@ -38,7 +39,15 @@ function mapUser(user: any): User {
 }
 
 function roleLabel(role: User['role']) {
-  return role === 'ADMIN' ? 'Administrador' : 'Cliente';
+  const labels: Record<UserRole, string> = {
+    ADMIN: 'Administrador',
+    GERENTE: 'Gerente',
+    VENDEDOR: 'Vendedor',
+    INVENTARIO: 'Inventario',
+    CLIENTE: 'Cliente',
+  };
+
+  return labels[role];
 }
 
 export function Users() {
@@ -231,11 +240,14 @@ export function Users() {
               <select
                 value={formData.role || 'CLIENTE'}
                 onChange={(event) =>
-                  setFormData({ ...formData, role: event.target.value as 'ADMIN' | 'CLIENTE' })
+                  setFormData({ ...formData, role: event.target.value as UserRole })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="CLIENTE">Cliente</option>
+                <option value="INVENTARIO">Inventario</option>
+                <option value="VENDEDOR">Vendedor</option>
+                <option value="GERENTE">Gerente</option>
                 <option value="ADMIN">Administrador</option>
               </select>
             </div>

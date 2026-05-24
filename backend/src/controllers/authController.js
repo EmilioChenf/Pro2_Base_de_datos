@@ -157,3 +157,7 @@ export async function me(req, res, next) {
     next(error);
   }
 }
+
+export async function logout(_req, res) {
+  res.status(204).send();
+}

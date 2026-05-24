@@ -25,7 +25,7 @@ router.post(
     body('password')
       .isLength({ min: 6 })
       .withMessage('La contrasena debe tener al menos 6 caracteres.'),
-    body('rol').isIn(['ADMIN', 'CLIENTE']).withMessage('Rol invalido.'),
+    body('rol').isIn(['ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO', 'CLIENTE']).withMessage('Rol invalido.'),
     body('telefono').optional().isString(),
     validateRequest,
   ],
@@ -38,7 +38,7 @@ router.put(
     param('id').isInt().withMessage('ID invalido.'),
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
     body('correo').isEmail().withMessage('Debes enviar un correo valido.'),
-    body('rol').isIn(['ADMIN', 'CLIENTE']).withMessage('Rol invalido.'),
+    body('rol').isIn(['ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO', 'CLIENTE']).withMessage('Rol invalido.'),
     body('password').optional().isLength({ min: 6 }),
     validateRequest,
   ],

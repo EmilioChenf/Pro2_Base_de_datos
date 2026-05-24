@@ -2,6 +2,10 @@ import { pool } from '../db/pool.js';
 
 const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
+function firstProcedureResult(result) {
+  return Array.isArray(result?.[0]) ? result[0] : result;
+}
+
 export async function dashboard(req, res, next) {
   try {
     const [[summary]] = await pool.query(
@@ -15,16 +19,8 @@ export async function dashboard(req, res, next) {
          (SELECT COUNT(*) FROM clientes) AS total_clientes`,
     );
 
-    const [monthlyRows] = await pool.query(
-      `SELECT
-         YEAR(fecha) AS anio,
-         MONTH(fecha) AS mes_numero,
-         COALESCE(SUM(total), 0) AS ventas
-       FROM ventas
-       WHERE fecha >= DATE_SUB(CURDATE(), INTERVAL 5 MONTH)
-       GROUP BY YEAR(fecha), MONTH(fecha)
-       ORDER BY anio ASC, mes_numero ASC`,
-    );
+    const [monthlyResult] = await pool.query('CALL sp_reporte_ventas_mensuales(?)', [5]);
+    const monthlyRows = firstProcedureResult(monthlyResult);
 
     const [recentSales] = await pool.query(
       `SELECT
@@ -41,17 +37,8 @@ export async function dashboard(req, res, next) {
        LIMIT 5`,
     );
 
-    const [lowStock] = await pool.query(
-      `SELECT
-         id_producto,
-         nombre,
-         stock,
-         10 AS stock_minimo
-       FROM productos
-       WHERE stock < 10
-       ORDER BY stock ASC, nombre ASC
-       LIMIT 5`,
-    );
+    const [lowStockResult] = await pool.query('CALL sp_productos_bajo_stock(?)', [10]);
+    const lowStock = firstProcedureResult(lowStockResult).slice(0, 5);
 
     res.json({
       summary,
@@ -80,16 +67,8 @@ export async function overview(req, res, next) {
        FROM ventas`,
     );
 
-    const [salesByMonthRows] = await pool.query(
-      `SELECT
-         YEAR(fecha) AS anio,
-         MONTH(fecha) AS mes_numero,
-         COALESCE(SUM(total), 0) AS ventas
-       FROM ventas
-       WHERE fecha >= DATE_SUB(CURDATE(), INTERVAL 5 MONTH)
-       GROUP BY YEAR(fecha), MONTH(fecha)
-       ORDER BY anio ASC, mes_numero ASC`,
-    );
+    const [salesByMonthResult] = await pool.query('CALL sp_reporte_ventas_mensuales(?)', [5]);
+    const salesByMonthRows = firstProcedureResult(salesByMonthResult);
 
     const [salesByPaymentRows] = await pool.query(
       `SELECT
@@ -157,17 +136,8 @@ export async function overview(req, res, next) {
        ORDER BY unidades DESC, ingresos DESC`,
     );
 
-    const [lowStock] = await pool.query(
-      `SELECT
-         id_producto,
-         nombre,
-         stock,
-         10 AS stock_minimo,
-         GREATEST(10 - stock, 0) + 10 AS reorden_sugerido
-       FROM productos
-       WHERE stock < 10
-       ORDER BY stock ASC, nombre ASC`,
-    );
+    const [lowStockResult] = await pool.query('CALL sp_productos_bajo_stock(?)', [10]);
+    const lowStock = firstProcedureResult(lowStockResult);
 
     const [salesByProduct] = await pool.query(
       `SELECT

@@ -1,11 +1,26 @@
 import { LayoutDashboard, Package, FolderTree, Truck, Users, UserCog, ShoppingCart, CreditCard, BarChart3, Settings } from 'lucide-react';
+import type { UserRole } from '@/types';
 
 interface SidebarProps {
   activeSection: string;
+  role?: UserRole;
   onSectionChange: (section: string) => void;
 }
 
-export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
+const permissions: Record<string, UserRole[]> = {
+  dashboard: ['ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO'],
+  products: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  categories: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  suppliers: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  customers: ['ADMIN', 'GERENTE', 'VENDEDOR'],
+  users: ['ADMIN'],
+  sales: ['ADMIN', 'GERENTE', 'VENDEDOR'],
+  payments: ['ADMIN', 'GERENTE'],
+  reports: ['ADMIN', 'GERENTE'],
+  settings: ['ADMIN'],
+};
+
+export function Sidebar({ activeSection, role, onSectionChange }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', label: 'Inicio', icon: LayoutDashboard },
     { id: 'products', label: 'Productos', icon: Package },
@@ -17,7 +32,7 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
     { id: 'payments', label: 'Métodos de Pago', icon: CreditCard },
     { id: 'reports', label: 'Reportes', icon: BarChart3 },
     { id: 'settings', label: 'Configuración', icon: Settings },
-  ];
+  ].filter((item) => role && permissions[item.id]?.includes(role));
 
   return (
     <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen">

@@ -155,9 +155,6 @@ export async function createSale(req, res, next) {
       }
     }
 
-    let total = 0;
-    const normalizedItems = [];
-
     for (const item of items) {
       const quantity = Number(item.cantidad);
       const productId = Number(item.id_producto);
@@ -166,69 +163,30 @@ export async function createSale(req, res, next) {
         throw createHttpError(422, 'Cada producto debe tener una cantidad valida.');
       }
 
-      const [productRows] = await connection.query(
-        `SELECT id_producto, nombre, precio, stock
-         FROM productos
-         WHERE id_producto = ?
-         LIMIT 1
-         FOR UPDATE`,
-        [productId],
-      );
-
-      if (!productRows.length) {
-        throw createHttpError(404, `El producto ${productId} no existe.`);
+      if (!Number.isFinite(productId) || productId <= 0) {
+        throw createHttpError(422, 'Cada producto debe tener un ID valido.');
       }
-
-      const product = productRows[0];
-
-      if (product.stock < quantity) {
-        throw createHttpError(
-          409,
-          `Stock insuficiente para ${product.nombre}. Disponible: ${product.stock}.`,
-        );
-      }
-
-      const subtotal = Number(product.precio) * quantity;
-      total += subtotal;
-
-      normalizedItems.push({
-        id_producto: productId,
-        cantidad: quantity,
-        precio_unitario: Number(product.precio),
-        subtotal,
-      });
-    }
-
-    const [saleResult] = await connection.query(
-      `INSERT INTO ventas (id_cliente, id_usuario, id_metodo_pago, fecha, total)
-       VALUES (?, ?, ?, NOW(), ?)`,
-      [customerId, req.user.id_usuario, paymentMethodId, total],
-    );
-
-    for (const item of normalizedItems) {
-      await connection.query(
-        `INSERT INTO detalle_venta
-         (id_venta, id_producto, cantidad, precio_unitario, subtotal)
-         VALUES (?, ?, ?, ?, ?)`,
-        [
-          saleResult.insertId,
-          item.id_producto,
-          item.cantidad,
-          item.precio_unitario,
-          item.subtotal,
-        ],
-      );
-
-      await connection.query(
-        `UPDATE productos
-         SET stock = stock - ?
-         WHERE id_producto = ?`,
-        [item.cantidad, item.id_producto],
-      );
     }
 
     await connection.query('COMMIT');
-    req.params.id = String(saleResult.insertId);
+
+    await connection.query(
+      'CALL sp_registrar_venta_completa(?, ?, ?, ?, @id_venta)',
+      [
+        customerId,
+        req.user.id_usuario,
+        paymentMethodId,
+        JSON.stringify(
+          items.map((item) => ({
+            id_producto: Number(item.id_producto),
+            cantidad: Number(item.cantidad),
+          })),
+        ),
+      ],
+    );
+    const [[out]] = await connection.query('SELECT @id_venta AS id_venta');
+
+    req.params.id = String(out.id_venta);
     return getSaleById(req, res, next);
   } catch (error) {
     await connection.query('ROLLBACK');

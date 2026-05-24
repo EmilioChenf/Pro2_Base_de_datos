@@ -28,3 +28,7 @@ export async function meRequest() {
   const response = await api.get<{ user: User }>('/auth/me');
   return response.data.user;
 }
+
+export async function logoutRequest() {
+  await api.post('/auth/logout');
+}

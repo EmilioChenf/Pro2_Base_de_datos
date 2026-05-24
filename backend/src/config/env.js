@@ -29,7 +29,7 @@ export const env = {
     host: process.env.DB_HOST ?? 'localhost',
     port: toNumber(process.env.DB_PORT, 3306),
     database: process.env.DB_NAME ?? 'tienda_peluches',
-    user: process.env.DB_USER ?? 'proy2',
+    user: process.env.DB_USER ?? 'proy3',
     password: process.env.DB_PASSWORD ?? 'secret',
     connectionLimit: toNumber(process.env.DB_CONNECTION_LIMIT, 10),
   },

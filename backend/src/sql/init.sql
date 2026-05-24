@@ -2,9 +2,40 @@ CREATE DATABASE IF NOT EXISTS tienda_peluches
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-CREATE USER IF NOT EXISTS 'proy2'@'%' IDENTIFIED BY 'secret';
-ALTER USER 'proy2'@'%' IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON tienda_peluches.* TO 'proy2'@'%';
+CREATE USER IF NOT EXISTS 'proy3'@'%' IDENTIFIED BY 'secret';
+ALTER USER 'proy3'@'%' IDENTIFIED BY 'secret';
+
+CREATE ROLE IF NOT EXISTS
+  'rol_administrador',
+  'rol_gerente',
+  'rol_vendedor',
+  'rol_inventario',
+  'rol_cliente';
+
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM
+  'rol_administrador',
+  'rol_gerente',
+  'rol_vendedor',
+  'rol_inventario',
+  'rol_cliente';
+
+CREATE USER IF NOT EXISTS 'db_admin_demo'@'%' IDENTIFIED BY 'secret';
+CREATE USER IF NOT EXISTS 'db_gerente_demo'@'%' IDENTIFIED BY 'secret';
+CREATE USER IF NOT EXISTS 'db_vendedor_demo'@'%' IDENTIFIED BY 'secret';
+CREATE USER IF NOT EXISTS 'db_inventario_demo'@'%' IDENTIFIED BY 'secret';
+CREATE USER IF NOT EXISTS 'db_cliente_demo'@'%' IDENTIFIED BY 'secret';
+GRANT 'rol_administrador' TO 'proy3'@'%';
+GRANT 'rol_administrador' TO 'db_admin_demo'@'%';
+GRANT 'rol_gerente' TO 'db_gerente_demo'@'%';
+GRANT 'rol_vendedor' TO 'db_vendedor_demo'@'%';
+GRANT 'rol_inventario' TO 'db_inventario_demo'@'%';
+GRANT 'rol_cliente' TO 'db_cliente_demo'@'%';
+SET DEFAULT ROLE 'rol_administrador' TO 'proy3'@'%';
+SET DEFAULT ROLE 'rol_administrador' TO 'db_admin_demo'@'%';
+SET DEFAULT ROLE 'rol_gerente' TO 'db_gerente_demo'@'%';
+SET DEFAULT ROLE 'rol_vendedor' TO 'db_vendedor_demo'@'%';
+SET DEFAULT ROLE 'rol_inventario' TO 'db_inventario_demo'@'%';
+SET DEFAULT ROLE 'rol_cliente' TO 'db_cliente_demo'@'%';
 FLUSH PRIVILEGES;
 
 USE tienda_peluches;
@@ -133,7 +164,10 @@ CREATE INDEX idx_detalle_venta_producto ON detalle_venta (id_producto);
 INSERT INTO roles (id_rol, nombre)
 VALUES
   (1, 'ADMIN'),
-  (2, 'CLIENTE')
+  (2, 'GERENTE'),
+  (3, 'VENDEDOR'),
+  (4, 'INVENTARIO'),
+  (5, 'CLIENTE')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
 INSERT INTO metodos_pago (id_metodo_pago, nombre)
@@ -178,9 +212,12 @@ ON DUPLICATE KEY UPDATE
 INSERT INTO usuarios (id_usuario, nombre, correo, password, id_rol, google_id)
 VALUES
   (1, 'Administrador Principal', 'admin@tienda.com', '$2b$10$0Q9aYFnQ8n1HqpNwHewtyeTlBsmGSc2QpORIyoJN/R4dT6o6zUb.i', 1, NULL),
-  (2, 'Cliente Demo', 'cliente@tienda.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 2, NULL),
-  (3, 'Carlos Ruiz', 'carlos@cliente.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 2, NULL),
-  (4, 'Ana Lopez', 'ana@cliente.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 2, NULL)
+  (2, 'Gerente Demo', 'gerente@tienda.com', '$2b$10$0Q9aYFnQ8n1HqpNwHewtyeTlBsmGSc2QpORIyoJN/R4dT6o6zUb.i', 2, NULL),
+  (3, 'Vendedor Demo', 'vendedor@tienda.com', '$2b$10$0Q9aYFnQ8n1HqpNwHewtyeTlBsmGSc2QpORIyoJN/R4dT6o6zUb.i', 3, NULL),
+  (4, 'Inventario Demo', 'inventario@tienda.com', '$2b$10$0Q9aYFnQ8n1HqpNwHewtyeTlBsmGSc2QpORIyoJN/R4dT6o6zUb.i', 4, NULL),
+  (5, 'Cliente Demo', 'cliente@tienda.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 5, NULL),
+  (6, 'Carlos Ruiz', 'carlos@cliente.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 5, NULL),
+  (7, 'Ana Lopez', 'ana@cliente.com', '$2b$10$9cc.dO93t.niu7UMalJ/NeZqnmuXpdRpmWix8kFeOcVrCvEyfGMcq', 5, NULL)
 ON DUPLICATE KEY UPDATE
   nombre = VALUES(nombre),
   correo = VALUES(correo),
@@ -190,9 +227,9 @@ ON DUPLICATE KEY UPDATE
 
 INSERT INTO clientes (id_cliente, nombre, correo, telefono, id_usuario)
 VALUES
-  (1, 'Cliente Demo', 'cliente@tienda.com', '555-1001', 2),
-  (2, 'Carlos Ruiz', 'carlos@cliente.com', '555-1002', 3),
-  (3, 'Ana Lopez', 'ana@cliente.com', '555-1003', 4)
+  (1, 'Cliente Demo', 'cliente@tienda.com', '555-1001', 5),
+  (2, 'Carlos Ruiz', 'carlos@cliente.com', '555-1002', 6),
+  (3, 'Ana Lopez', 'ana@cliente.com', '555-1003', 7)
 ON DUPLICATE KEY UPDATE
   nombre = VALUES(nombre),
   correo = VALUES(correo),
@@ -288,3 +325,183 @@ FROM ventas v
 INNER JOIN clientes c ON c.id_cliente = v.id_cliente
 INNER JOIN usuarios u ON u.id_usuario = v.id_usuario
 INNER JOIN metodos_pago mp ON mp.id_metodo_pago = v.id_metodo_pago;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_registrar_proveedor//
+CREATE PROCEDURE sp_registrar_proveedor(
+  IN p_nombre VARCHAR(150),
+  IN p_correo VARCHAR(150),
+  IN p_telefono VARCHAR(30),
+  OUT p_id_proveedor INT
+)
+BEGIN
+  INSERT INTO proveedores (nombre, correo, telefono)
+  VALUES (TRIM(p_nombre), TRIM(p_correo), TRIM(p_telefono));
+
+  SET p_id_proveedor = LAST_INSERT_ID();
+END//
+
+DROP PROCEDURE IF EXISTS sp_actualizar_stock_producto//
+CREATE PROCEDURE sp_actualizar_stock_producto(
+  IN p_id_producto INT,
+  IN p_stock INT,
+  OUT p_stock_final INT
+)
+BEGIN
+  IF p_stock < 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'El stock no puede ser negativo.';
+  END IF;
+
+  UPDATE productos
+  SET stock = p_stock
+  WHERE id_producto = p_id_producto;
+
+  IF ROW_COUNT() = 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'El producto no existe.';
+  END IF;
+
+  SELECT stock INTO p_stock_final
+  FROM productos
+  WHERE id_producto = p_id_producto;
+END//
+
+DROP PROCEDURE IF EXISTS sp_reporte_ventas_mensuales//
+CREATE PROCEDURE sp_reporte_ventas_mensuales(IN p_meses INT)
+BEGIN
+  SELECT
+    YEAR(fecha) AS anio,
+    MONTH(fecha) AS mes_numero,
+    COALESCE(SUM(total), 0) AS ventas
+  FROM ventas
+  WHERE fecha >= DATE_SUB(CURDATE(), INTERVAL p_meses MONTH)
+  GROUP BY YEAR(fecha), MONTH(fecha)
+  ORDER BY anio ASC, mes_numero ASC;
+END//
+
+DROP PROCEDURE IF EXISTS sp_productos_bajo_stock//
+CREATE PROCEDURE sp_productos_bajo_stock(IN p_stock_minimo INT)
+BEGIN
+  SELECT
+    id_producto,
+    nombre,
+    stock,
+    p_stock_minimo AS stock_minimo,
+    GREATEST(p_stock_minimo - stock, 0) + p_stock_minimo AS reorden_sugerido
+  FROM productos
+  WHERE stock < p_stock_minimo
+  ORDER BY stock ASC, nombre ASC;
+END//
+
+DROP PROCEDURE IF EXISTS sp_registrar_venta_completa//
+CREATE PROCEDURE sp_registrar_venta_completa(
+  IN p_id_cliente INT,
+  IN p_id_usuario INT,
+  IN p_id_metodo_pago INT,
+  IN p_items JSON,
+  OUT p_id_venta INT
+)
+BEGIN
+  DECLARE v_total DECIMAL(10, 2) DEFAULT 0;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    RESIGNAL;
+  END;
+
+  START TRANSACTION;
+
+  IF JSON_LENGTH(p_items) IS NULL OR JSON_LENGTH(p_items) = 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'La venta debe incluir al menos un producto.';
+  END IF;
+
+  IF (
+    SELECT COUNT(*)
+    FROM JSON_TABLE(
+      p_items,
+      '$[*]' COLUMNS (
+        id_producto INT PATH '$.id_producto',
+        cantidad INT PATH '$.cantidad'
+      )
+    ) AS jt
+    LEFT JOIN productos p ON p.id_producto = jt.id_producto
+    WHERE jt.cantidad <= 0 OR p.id_producto IS NULL OR p.stock < jt.cantidad
+  ) > 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Producto invalido o stock insuficiente.';
+  END IF;
+
+  SELECT COALESCE(SUM(p.precio * jt.cantidad), 0)
+    INTO v_total
+  FROM JSON_TABLE(
+    p_items,
+    '$[*]' COLUMNS (
+      id_producto INT PATH '$.id_producto',
+      cantidad INT PATH '$.cantidad'
+    )
+  ) AS jt
+  INNER JOIN productos p ON p.id_producto = jt.id_producto
+  WHERE jt.cantidad > 0;
+
+  INSERT INTO ventas (id_cliente, id_usuario, id_metodo_pago, fecha, total)
+  VALUES (p_id_cliente, p_id_usuario, p_id_metodo_pago, NOW(), v_total);
+
+  SET p_id_venta = LAST_INSERT_ID();
+
+  INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, subtotal)
+  SELECT
+    p_id_venta,
+    p.id_producto,
+    jt.cantidad,
+    p.precio,
+    p.precio * jt.cantidad
+  FROM JSON_TABLE(
+    p_items,
+    '$[*]' COLUMNS (
+      id_producto INT PATH '$.id_producto',
+      cantidad INT PATH '$.cantidad'
+    )
+  ) AS jt
+  INNER JOIN productos p ON p.id_producto = jt.id_producto;
+
+  UPDATE productos p
+  INNER JOIN JSON_TABLE(
+    p_items,
+    '$[*]' COLUMNS (
+      id_producto INT PATH '$.id_producto',
+      cantidad INT PATH '$.cantidad'
+    )
+  ) AS jt ON jt.id_producto = p.id_producto
+  SET p.stock = p.stock - jt.cantidad;
+
+  COMMIT;
+END//
+
+DELIMITER ;
+
+GRANT ALL PRIVILEGES ON tienda_peluches.* TO 'rol_administrador';
+GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON tienda_peluches.* TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.productos TO 'rol_vendedor';
+GRANT SELECT ON tienda_peluches.clientes TO 'rol_vendedor';
+GRANT SELECT, INSERT ON tienda_peluches.ventas TO 'rol_vendedor';
+GRANT SELECT, INSERT ON tienda_peluches.detalle_venta TO 'rol_vendedor';
+GRANT SELECT ON tienda_peluches.metodos_pago TO 'rol_vendedor';
+GRANT EXECUTE ON tienda_peluches.* TO 'rol_vendedor';
+GRANT SELECT, INSERT, UPDATE, DELETE ON tienda_peluches.productos TO 'rol_inventario';
+GRANT SELECT, INSERT, UPDATE, DELETE ON tienda_peluches.categorias TO 'rol_inventario';
+GRANT SELECT, INSERT, UPDATE, DELETE ON tienda_peluches.proveedores TO 'rol_inventario';
+GRANT SELECT ON tienda_peluches.marcas TO 'rol_inventario';
+GRANT EXECUTE ON tienda_peluches.* TO 'rol_inventario';
+GRANT SELECT ON tienda_peluches.productos TO 'rol_cliente';
+GRANT SELECT ON tienda_peluches.categorias TO 'rol_cliente';
+GRANT SELECT ON tienda_peluches.marcas TO 'rol_cliente';
+GRANT SELECT ON tienda_peluches.metodos_pago TO 'rol_cliente';
+GRANT SELECT, INSERT, UPDATE ON tienda_peluches.clientes TO 'rol_cliente';
+GRANT SELECT, INSERT ON tienda_peluches.ventas TO 'rol_cliente';
+GRANT SELECT, INSERT ON tienda_peluches.detalle_venta TO 'rol_cliente';
+GRANT EXECUTE ON tienda_peluches.* TO 'rol_cliente';
+FLUSH PRIVILEGES;

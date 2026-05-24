@@ -14,11 +14,32 @@ import { Suppliers } from '@/figma/admin/Suppliers';
 import { TopBar } from '@/figma/admin/TopBar';
 import { Users } from '@/figma/admin/Users';
 import { Toaster } from '@/figma/admin/ui/sonner';
+import type { UserRole } from '@/types';
+
+const SECTION_PERMISSIONS: Record<string, UserRole[]> = {
+  dashboard: ['ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO'],
+  products: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  categories: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  suppliers: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  customers: ['ADMIN', 'GERENTE', 'VENDEDOR'],
+  users: ['ADMIN'],
+  sales: ['ADMIN', 'GERENTE', 'VENDEDOR'],
+  payments: ['ADMIN', 'GERENTE'],
+  reports: ['ADMIN', 'GERENTE'],
+  settings: ['ADMIN'],
+};
+
+function canAccessSection(role: UserRole | undefined, section: string) {
+  return Boolean(role && SECTION_PERMISSIONS[section]?.includes(role));
+}
 
 export function AdminPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { user, logout } = useAuth();
-  const activeSection = searchParams.get('section') ?? 'dashboard';
+  const requestedSection = searchParams.get('section') ?? 'dashboard';
+  const activeSection = canAccessSection(user?.rol, requestedSection)
+    ? requestedSection
+    : 'dashboard';
 
   const content = useMemo(() => {
     switch (activeSection) {
@@ -39,14 +60,21 @@ export function AdminPage() {
       case 'reports':
         return <Reports />;
       default:
-        return <Dashboard />;
+        return canAccessSection(user?.rol, activeSection) ? (
+          <Dashboard />
+        ) : (
+          <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-red-700">
+            Acceso denegado para tu rol.
+          </div>
+        );
     }
-  }, [activeSection]);
+  }, [activeSection, user?.rol]);
 
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar
         activeSection={activeSection}
+        role={user?.rol}
         onSectionChange={(section) => setSearchParams({ section })}
       />
 

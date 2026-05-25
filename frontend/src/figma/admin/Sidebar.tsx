@@ -8,14 +8,14 @@ interface SidebarProps {
 }
 
 const permissions: Record<string, UserRole[]> = {
-  dashboard: ['ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO'],
-  products: ['ADMIN', 'GERENTE', 'INVENTARIO'],
-  categories: ['ADMIN', 'GERENTE', 'INVENTARIO'],
-  suppliers: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  dashboard: ['ADMIN', 'GERENTE'],
+  products: ['ADMIN', 'INVENTARIO'],
+  categories: ['ADMIN', 'INVENTARIO'],
+  suppliers: ['ADMIN', 'INVENTARIO'],
   customers: ['ADMIN', 'GERENTE', 'VENDEDOR'],
   users: ['ADMIN'],
   sales: ['ADMIN', 'GERENTE', 'VENDEDOR'],
-  payments: ['ADMIN', 'GERENTE'],
+  payments: ['ADMIN'],
   reports: ['ADMIN', 'GERENTE'],
   settings: ['ADMIN'],
 };

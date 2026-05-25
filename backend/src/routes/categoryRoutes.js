@@ -18,7 +18,7 @@ router.get('/', listCategories);
 router.post(
   '/',
   authenticate,
-  authorize('ADMIN', 'GERENTE', 'INVENTARIO'),
+  authorize('ADMIN', 'INVENTARIO'),
   [
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
     validateRequest,
@@ -29,7 +29,7 @@ router.post(
 router.put(
   '/:id',
   authenticate,
-  authorize('ADMIN', 'GERENTE', 'INVENTARIO'),
+  authorize('ADMIN', 'INVENTARIO'),
   [
     param('id').isInt().withMessage('ID invalido.'),
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
@@ -41,7 +41,7 @@ router.put(
 router.delete(
   '/:id',
   authenticate,
-  authorize('ADMIN', 'GERENTE', 'INVENTARIO'),
+  authorize('ADMIN', 'INVENTARIO'),
   [param('id').isInt().withMessage('ID invalido.'), validateRequest],
   deleteCategory,
 );

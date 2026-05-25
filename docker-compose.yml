@@ -5,8 +5,8 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-tienda_peluches}
-      MYSQL_USER: ${MYSQL_USER:-proy3}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secret}
+      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER requerido}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD requerido}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootsecret}
     ports:
       - "${MYSQL_PORT:-13306}:3306"
@@ -33,9 +33,9 @@ services:
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8080}
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${MYSQL_DATABASE:-tienda_peluches}
-      DB_USER: ${DB_USER:-proy3}
-      DB_PASSWORD: ${MYSQL_PASSWORD:-secret}
+      DB_NAME: ${MYSQL_DATABASE:?MYSQL_DATABASE requerido}
+      DB_USER: ${DB_USER:?DB_USER requerido}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD requerido}
       DB_CONNECTION_LIMIT: ${DB_CONNECTION_LIMIT:-10}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}

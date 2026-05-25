@@ -49,7 +49,7 @@ const upload = multer({
 
 const router = Router();
 
-router.use(authenticate, authorize('ADMIN', 'GERENTE', 'INVENTARIO'));
+router.use(authenticate, authorize('ADMIN', 'INVENTARIO'));
 
 router.post('/product-image', upload.single('image'), (req, res, next) => {
   try {

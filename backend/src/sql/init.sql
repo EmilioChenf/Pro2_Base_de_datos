@@ -484,9 +484,20 @@ END//
 DELIMITER ;
 
 GRANT ALL PRIVILEGES ON tienda_peluches.* TO 'rol_administrador';
-GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON tienda_peluches.* TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.vista_resumen_ventas TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.productos TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.categorias TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.proveedores TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.marcas TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.clientes TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.usuarios TO 'rol_gerente';
+GRANT SELECT ON tienda_peluches.metodos_pago TO 'rol_gerente';
+GRANT SELECT, INSERT ON tienda_peluches.ventas TO 'rol_gerente';
+GRANT SELECT, INSERT ON tienda_peluches.detalle_venta TO 'rol_gerente';
+GRANT EXECUTE ON tienda_peluches.* TO 'rol_gerente';
 GRANT SELECT ON tienda_peluches.productos TO 'rol_vendedor';
 GRANT SELECT ON tienda_peluches.clientes TO 'rol_vendedor';
+GRANT SELECT ON tienda_peluches.usuarios TO 'rol_vendedor';
 GRANT SELECT, INSERT ON tienda_peluches.ventas TO 'rol_vendedor';
 GRANT SELECT, INSERT ON tienda_peluches.detalle_venta TO 'rol_vendedor';
 GRANT SELECT ON tienda_peluches.metodos_pago TO 'rol_vendedor';

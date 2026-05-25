@@ -15,6 +15,16 @@ function toList(value, fallback) {
     .filter(Boolean);
 }
 
+function requireEnv(name) {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`La variable de entorno ${name} es obligatoria.`);
+  }
+
+  return value;
+}
+
 export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   port: toNumber(process.env.PORT, 3000),
@@ -28,9 +38,9 @@ export const env = {
   db: {
     host: process.env.DB_HOST ?? 'localhost',
     port: toNumber(process.env.DB_PORT, 3306),
-    database: process.env.DB_NAME ?? 'tienda_peluches',
-    user: process.env.DB_USER ?? 'proy3',
-    password: process.env.DB_PASSWORD ?? 'secret',
+    database: requireEnv('DB_NAME'),
+    user: requireEnv('DB_USER'),
+    password: requireEnv('DB_PASSWORD'),
     connectionLimit: toNumber(process.env.DB_CONNECTION_LIMIT, 10),
   },
   googleClientId: process.env.GOOGLE_CLIENT_ID ?? '',

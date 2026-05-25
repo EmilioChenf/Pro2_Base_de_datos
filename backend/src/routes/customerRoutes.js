@@ -13,12 +13,13 @@ import { validateRequest } from '../middlewares/validateRequest.js';
 
 const router = Router();
 
-router.use(authenticate, authorize('ADMIN', 'GERENTE', 'VENDEDOR'));
+router.use(authenticate);
 
-router.get('/', listCustomers);
+router.get('/', authorize('ADMIN', 'GERENTE', 'VENDEDOR'), listCustomers);
 
 router.post(
   '/',
+  authorize('ADMIN'),
   [
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
     body('correo').isEmail().withMessage('Debes enviar un correo valido.'),
@@ -31,6 +32,7 @@ router.post(
 
 router.put(
   '/:id',
+  authorize('ADMIN'),
   [
     param('id').isInt().withMessage('ID invalido.'),
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
@@ -43,6 +45,7 @@ router.put(
 
 router.delete(
   '/:id',
+  authorize('ADMIN'),
   [param('id').isInt().withMessage('ID invalido.'), validateRequest],
   deleteCustomer,
 );

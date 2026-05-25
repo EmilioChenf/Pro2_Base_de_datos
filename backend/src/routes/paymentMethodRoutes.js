@@ -18,7 +18,7 @@ router.get('/', listPaymentMethods);
 router.post(
   '/',
   authenticate,
-  authorize('ADMIN', 'GERENTE'),
+  authorize('ADMIN'),
   [
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
     validateRequest,
@@ -29,7 +29,7 @@ router.post(
 router.put(
   '/:id',
   authenticate,
-  authorize('ADMIN', 'GERENTE'),
+  authorize('ADMIN'),
   [
     param('id').isInt().withMessage('ID invalido.'),
     body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio.'),
@@ -41,7 +41,7 @@ router.put(
 router.delete(
   '/:id',
   authenticate,
-  authorize('ADMIN', 'GERENTE'),
+  authorize('ADMIN'),
   [param('id').isInt().withMessage('ID invalido.'), validateRequest],
   deletePaymentMethod,
 );

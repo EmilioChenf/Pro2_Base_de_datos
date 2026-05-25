@@ -17,20 +17,32 @@ import { Toaster } from '@/figma/admin/ui/sonner';
 import type { UserRole } from '@/types';
 
 const SECTION_PERMISSIONS: Record<string, UserRole[]> = {
-  dashboard: ['ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO'],
-  products: ['ADMIN', 'GERENTE', 'INVENTARIO'],
-  categories: ['ADMIN', 'GERENTE', 'INVENTARIO'],
-  suppliers: ['ADMIN', 'GERENTE', 'INVENTARIO'],
+  dashboard: ['ADMIN', 'GERENTE'],
+  products: ['ADMIN', 'INVENTARIO'],
+  categories: ['ADMIN', 'INVENTARIO'],
+  suppliers: ['ADMIN', 'INVENTARIO'],
   customers: ['ADMIN', 'GERENTE', 'VENDEDOR'],
   users: ['ADMIN'],
   sales: ['ADMIN', 'GERENTE', 'VENDEDOR'],
-  payments: ['ADMIN', 'GERENTE'],
+  payments: ['ADMIN'],
   reports: ['ADMIN', 'GERENTE'],
   settings: ['ADMIN'],
 };
 
+const DEFAULT_SECTION_BY_ROLE: Record<UserRole, string> = {
+  ADMIN: 'dashboard',
+  GERENTE: 'dashboard',
+  VENDEDOR: 'sales',
+  INVENTARIO: 'products',
+  CLIENTE: 'dashboard',
+};
+
 function canAccessSection(role: UserRole | undefined, section: string) {
   return Boolean(role && SECTION_PERMISSIONS[section]?.includes(role));
+}
+
+function getDefaultSection(role: UserRole | undefined) {
+  return role ? DEFAULT_SECTION_BY_ROLE[role] : 'dashboard';
 }
 
 export function AdminPage() {
@@ -39,7 +51,7 @@ export function AdminPage() {
   const requestedSection = searchParams.get('section') ?? 'dashboard';
   const activeSection = canAccessSection(user?.rol, requestedSection)
     ? requestedSection
-    : 'dashboard';
+    : getDefaultSection(user?.rol);
 
   const content = useMemo(() => {
     switch (activeSection) {

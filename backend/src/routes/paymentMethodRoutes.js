@@ -13,7 +13,12 @@ import { validateRequest } from '../middlewares/validateRequest.js';
 
 const router = Router();
 
-router.get('/', listPaymentMethods);
+router.get(
+  '/',
+  authenticate,
+  authorize('ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO', 'CLIENTE'),
+  listPaymentMethods,
+);
 
 router.post(
   '/',

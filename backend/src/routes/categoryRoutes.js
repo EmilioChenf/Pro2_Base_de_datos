@@ -13,7 +13,12 @@ import { validateRequest } from '../middlewares/validateRequest.js';
 
 const router = Router();
 
-router.get('/', listCategories);
+router.get(
+  '/',
+  authenticate,
+  authorize('ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO', 'CLIENTE'),
+  listCategories,
+);
 
 router.post(
   '/',

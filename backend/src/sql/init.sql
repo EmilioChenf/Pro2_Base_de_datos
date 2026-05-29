@@ -515,4 +515,7 @@ GRANT SELECT, INSERT, UPDATE ON tienda_peluches.clientes TO 'rol_cliente';
 GRANT SELECT, INSERT ON tienda_peluches.ventas TO 'rol_cliente';
 GRANT SELECT, INSERT ON tienda_peluches.detalle_venta TO 'rol_cliente';
 GRANT EXECUTE ON tienda_peluches.* TO 'rol_cliente';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'proy3'@'%';
+GRANT 'rol_administrador' TO 'proy3'@'%';
+SET DEFAULT ROLE 'rol_administrador' TO 'proy3'@'%';
 FLUSH PRIVILEGES;

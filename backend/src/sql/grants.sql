@@ -71,4 +71,7 @@ SET DEFAULT ROLE 'rol_gerente' TO 'db_gerente_demo'@'%';
 SET DEFAULT ROLE 'rol_vendedor' TO 'db_vendedor_demo'@'%';
 SET DEFAULT ROLE 'rol_inventario' TO 'db_inventario_demo'@'%';
 SET DEFAULT ROLE 'rol_cliente' TO 'db_cliente_demo'@'%';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'proy3'@'%';
+GRANT 'rol_administrador' TO 'proy3'@'%';
+SET DEFAULT ROLE 'rol_administrador' TO 'proy3'@'%';
 FLUSH PRIVILEGES;

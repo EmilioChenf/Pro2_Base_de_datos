@@ -118,6 +118,7 @@ Permisos principales:
 - `CLIENTE`: catalogo, carrito, checkout e historial propio.
 
 Si un rol no tiene permiso, el backend responde `403` y el frontend oculta secciones no autorizadas o redirige.
+Las lecturas de catalogo para la UI usan rutas autenticadas bajo `/api/catalog/*`; las rutas administrativas `/api/products`, `/api/categories`, `/api/suppliers`, `/api/brands` y `/api/payment-methods` tambien requieren token y rol permitido.
 
 ## ORM
 
@@ -166,7 +167,16 @@ Autenticacion:
 - `GET /api/auth/me`
 - `POST /api/auth/logout`
 
-Catalogo y administracion:
+Catalogo autenticado:
+
+- `GET /api/catalog/products`
+- `GET /api/catalog/products/:id`
+- `GET /api/catalog/categories`
+- `GET /api/catalog/brands`
+- `GET /api/catalog/payment-methods`
+- `GET /api/catalog/suppliers`
+
+Administracion:
 
 - `GET|POST|PUT|DELETE /api/products`
 - `GET|POST|PUT|DELETE /api/categories`

@@ -14,32 +14,32 @@ import type {
 } from '@/types';
 
 export async function fetchProducts(params?: Record<string, string | number | boolean>) {
-  const response = await api.get<Product[]>('/products', { params });
+  const response = await api.get<Product[]>('/catalog/products', { params });
   return response.data;
 }
 
 export async function fetchProductById(id: number) {
-  const response = await api.get<Product>(`/products/${id}`);
+  const response = await api.get<Product>(`/catalog/products/${id}`);
   return response.data;
 }
 
 export async function fetchCategories() {
-  const response = await api.get<Category[]>('/categories');
+  const response = await api.get<Category[]>('/catalog/categories');
   return response.data;
 }
 
 export async function fetchBrands() {
-  const response = await api.get<Brand[]>('/brands');
+  const response = await api.get<Brand[]>('/catalog/brands');
   return response.data;
 }
 
 export async function fetchSuppliers() {
-  const response = await api.get<Supplier[]>('/suppliers');
+  const response = await api.get<Supplier[]>('/catalog/suppliers');
   return response.data;
 }
 
 export async function fetchPaymentMethods() {
-  const response = await api.get<PaymentMethod[]>('/payment-methods');
+  const response = await api.get<PaymentMethod[]>('/catalog/payment-methods');
   return response.data;
 }
 

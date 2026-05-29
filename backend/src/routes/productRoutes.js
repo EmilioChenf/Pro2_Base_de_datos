@@ -14,8 +14,19 @@ import { validateRequest } from '../middlewares/validateRequest.js';
 
 const router = Router();
 
-router.get('/', listProducts);
-router.get('/:id', [param('id').isInt().withMessage('ID invalido.'), validateRequest], getProductById);
+router.get(
+  '/',
+  authenticate,
+  authorize('ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO', 'CLIENTE'),
+  listProducts,
+);
+router.get(
+  '/:id',
+  authenticate,
+  authorize('ADMIN', 'GERENTE', 'VENDEDOR', 'INVENTARIO', 'CLIENTE'),
+  [param('id').isInt().withMessage('ID invalido.'), validateRequest],
+  getProductById,
+);
 
 router.post(
   '/',
